@@ -19,6 +19,19 @@ cli = Typer()
 
 DOMAIN_REGEX = re.compile(r"([a-zA-Z0-9_-]+\.)?(.*)\.([a-zA-Z]+)")
 
+pm_cmd = {
+    "TypeScript": {
+        "NPM": ["npx", "create-next-app@latest", "--ts"],
+        "Yarn": ["yarn", "create", "next-app", "--typescript"],
+        "Pnpm": ["pnpm", "create", "next-app", "--", "--ts"],
+    },
+    "JavaScript": {
+        "NPM": ["npx", "create-next-app@latest"],
+        "Yarn": ["yarn", "create", "next-app"],
+        "Pnpm": ["pnpm", "create", "next-app"],
+    },
+}
+
 
 @cli.command()
 def get(url: str):
@@ -126,19 +139,17 @@ def create(name: str, src: bool = False):
                 "Pnpm"
             ]
         ).ask()
-        if package_man == "Pnpm":
-            console.log("[yellow]Pnpm support is still a work in progress[/]")
         if shutil.which(package_man) is None:
             console.print(f"[red]Package manager {package_man} not found![/]")
             return
+        if shutil.which("npx") is None:
+            console.print(f"[red]NPX not found![/]")
+            return
         if prj_type == "React":
             bundler = questionary.select(
-                "Select Bundler",
+                "Bundler",
                 choices=["Vite", "create-react-app"]
             ).ask()
-            if shutil.which("npx") is None:
-                console.print(f"[red]NPX not found![/]")
-                return
             if bundler == "Vite":
                 console.print(f"[green]Creating project with Vite, {ts} and {package_man}[/]")
                 return
@@ -146,7 +157,38 @@ def create(name: str, src: bool = False):
                 console.print(f"[green]Creating project with create-react-app, {ts} and {package_man}[/]")
                 return
         elif prj_type == "NextJS":
+            domain = questionary.select(
+                "Repository",
+                choices=os.listdir(get_home_dir()) + ["Other"]
+            ).ask()
+            if domain == "Other":
+                domain = questionary.text("Enter Domain(without 'https://'): ").ask()
+                if DOMAIN_REGEX.match(domain) is None:
+                    console.print(f"[red]Invalid domain![/]")
+                    return
+                os.mkdir(os.path.join(get_home_dir(), domain))
+            if domain == "github.com":
+                if not os.path.exists(os.path.join(get_home_dir(), domain)):
+                    os.mkdir(os.path.join(get_home_dir(), domain))
+                user = questionary.select("GitHub Username",
+                                          choices=os.listdir(os.path.join(get_home_dir(), "github.com")) + [
+                                              "Other"]).ask()
+                if user == "Other":
+                    user = questionary.text("Enter Username: ").ask()
+                domain = os.path.join(domain, user)
+                if not os.path.exists(os.path.join(get_home_dir(), "github.com")):
+                    os.mkdir(os.path.join(get_home_dir(), "github.com"))
+                if not os.path.exists(os.path.join(get_home_dir(), domain)):
+                    os.mkdir(os.path.join(get_home_dir(), domain))
+            if os.path.exists(os.path.join(get_home_dir(), domain, name)):
+                console.print(f"[red]Project already exists![/]")
+                return
+            os.mkdir(os.path.join(get_home_dir(), domain, name))
             console.print(f"[green]Creating project with create-next-app, {ts} and {package_man}[/]")
+            if config.config['cli']['displayOutput']:
+                out = subprocess.run(pm_cmd[ts][package_man]+[os.path.join(get_home_dir(), domain, name)], shell=True)
+            else:
+                out = subprocess.run(pm_cmd[ts][package_man]+[os.path.join(get_home_dir(), domain, name)], shell=True, capture_output=True)
             return
         elif prj_type == "NodeJS":
             console.print(f"[green]Creating project with NodeJS[/]")
@@ -182,7 +224,9 @@ def create(name: str, src: bool = False):
             if domain == "github.com":
                 if not os.path.exists(os.path.join(get_home_dir(), domain)):
                     os.mkdir(os.path.join(get_home_dir(), domain))
-                user = questionary.select("GitHub Username", choices=os.listdir(os.path.join(get_home_dir(), "github.com"))+["Other"]).ask()
+                user = questionary.select("GitHub Username",
+                                          choices=os.listdir(os.path.join(get_home_dir(), "github.com")) + [
+                                              "Other"]).ask()
                 if user == "Other":
                     user = questionary.text("Enter Username: ").ask()
                 domain = os.path.join(domain, user)
@@ -196,9 +240,11 @@ def create(name: str, src: bool = False):
 
             os.chdir(os.path.join(get_home_dir(), domain))
             if src:
-                out = subprocess.run(["poetry", "new", os.path.join(get_home_dir(), domain, name), "--name", name, "--src"], shell=True)
+                subprocess.run(
+                    ["poetry", "new", os.path.join(get_home_dir(), domain, name), "--name", name, "--src"], shell=True)
             else:
-                out = subprocess.run(["poetry", "new", os.path.join(get_home_dir(), domain, name), "--name", name], shell=True)
+                subprocess.run(["poetry", "new", os.path.join(get_home_dir(), domain, name), "--name", name],
+                               shell=True)
             return
         elif env == "Pip":
             if shutil.which("pip") is None:
@@ -211,7 +257,7 @@ def create(name: str, src: bool = False):
             os.chdir(get_home_dir())
             domain = questionary.select(
                 "Repository",
-                choices=os.listdir(get_home_dir())+["Other"]
+                choices=os.listdir(get_home_dir()) + ["Other"]
             ).ask()
             if domain == "Other":
                 domain = questionary.text("Enter Domain(without 'https://'): ").ask()
@@ -231,7 +277,7 @@ def create(name: str, src: bool = False):
                 return
             os.chdir(os.path.join(get_home_dir(), domain))
             deps = questionary.text("Enter comma separated list of dependencies: ").ask().split(",")
-            dep_progress = 50/len(deps)
+            dep_progress = 50 / len(deps)
             with Progress() as progress:
                 create_task = progress.add_task("[green]Creating files", total=100)
                 write_task = progress.add_task("[green]Writing data", total=100)
@@ -250,42 +296,34 @@ def create(name: str, src: bool = False):
                 time.sleep(1)
                 with open(os.path.join(get_home_dir(), domain, name, "requirements.txt"), "w") as f:
                     f.write("")
-                    f.close()
                 progress.update(create_task, advance=10)
                 time.sleep(1)
                 with open(os.path.join(get_home_dir(), domain, name, "setup.py"), "w") as f:
                     f.write("")
-                    f.close()
                 progress.update(create_task, advance=10)
                 time.sleep(1)
                 with open(os.path.join(get_home_dir(), domain, name, "src", name, "__init__.py"), "w") as f:
                     f.write("")
-                    f.close()
                 progress.update(create_task, advance=10)
                 time.sleep(1)
                 with open(os.path.join(get_home_dir(), domain, name, "src", name, f"{name}.py"), "w") as f:
                     f.write("")
-                    f.close()
                 progress.update(create_task, advance=10)
                 time.sleep(1)
                 with open(os.path.join(get_home_dir(), domain, name, "README.md"), "w") as f:
                     f.write("")
-                    f.close()
                 progress.update(create_task, advance=10)
                 time.sleep(1)
                 with open(os.path.join(get_home_dir(), domain, name, "LICENSE"), "w") as f:
                     f.write("")
-                    f.close()
                 progress.update(create_task, advance=10)
                 time.sleep(1)
                 with open(os.path.join(get_home_dir(), domain, name, "tests", "__init__.py"), "w") as f:
                     f.write("")
-                    f.close()
                 progress.update(create_task, advance=10)
                 time.sleep(1)
                 with open(os.path.join(get_home_dir(), domain, name, "tests", f"test_{name}.py"), "w") as f:
                     f.write("")
-                    f.close()
                 progress.update(create_task, advance=10)
                 time.sleep(1)
                 progress.console.print(f"[green]Files created successfully![/]")
@@ -301,7 +339,6 @@ def create(name: str, src: bool = False):
                 with open(os.path.join(get_home_dir(), domain, name, "requirements.txt"), "w") as f:
                     for dep in deps:
                         f.write(f"{dep.lstrip().rstrip()}\n")
-                    f.close()
                 progress.update(write_task, advance=20)
                 time.sleep(1)
                 progress.console.print("[green]Writing setup.py[/]")
@@ -316,7 +353,7 @@ setup(name='{name}',
     package_dir={{"":"src"}},
     packages=setuptools.find_packages(where="src"),
     python_requires='>={sys.version_info.major}.{sys.version_info.minor}',
-    install_requires={[ dep.lstrip().rstrip() for dep in deps ]},
+    install_requires={[dep.lstrip().rstrip() for dep in deps]},
     classifiers=[]
 )""")
                     f.close()
@@ -332,21 +369,24 @@ setup(name='{name}',
                 time.sleep(1)
                 progress.console.print("[green]Data written to files successfully![/]")
                 progress.console.print("[green]Initializing Git Repo[/]")
-                out = subprocess.run(["git", "init"], cwd=os.path.join(get_home_dir(), domain, name), capture_output=True)
+                out = subprocess.run(["git", "init"], cwd=os.path.join(get_home_dir(), domain, name),
+                                     capture_output=True)
                 if out.returncode != 0:
                     progress.console.print(f"[red]Failed to initialize git repo![/]")
                 else:
                     progress.console.print("[green]Git repo initialized successfully![/]")
                     progress.update(write_task, advance=1)
                     progress.console.print("[green]Adding files to git repo[/]")
-                    out = subprocess.run(["git", "add", "."], cwd=os.path.join(get_home_dir(), domain, name), capture_output=True)
+                    out = subprocess.run(["git", "add", "."], cwd=os.path.join(get_home_dir(), domain, name),
+                                         capture_output=True)
                     if out.returncode != 0:
                         progress.console.print(f"[red]Failed to add files to git repo![/]")
                     else:
                         progress.console.print("[green]Files added to git repo successfully![/]")
                         progress.update(write_task, advance=2)
                         progress.console.print("[green]Committing files to git repo[/]")
-                        out = subprocess.run(["git", "commit", "-m", "Initial Commit from pm"], cwd=os.path.join(get_home_dir(), domain, name), capture_output=True)
+                        out = subprocess.run(["git", "commit", "-m", "Initial Commit from pm"],
+                                             cwd=os.path.join(get_home_dir(), domain, name), capture_output=True)
                         if out.returncode != 0:
                             progress.console.print(f"[red]Failed to commit files to git repo![/]")
                         else:
@@ -355,7 +395,7 @@ setup(name='{name}',
             console.print("[green]Package created successfully![/]")
             return
         elif env == "Virtual Environment":
-            console.print(f"[green]Creating project with Virtual Environment[/]")
+            console.print(f"[green]Work in Progress![/]")
             return
 
 

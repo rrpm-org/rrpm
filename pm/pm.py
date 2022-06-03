@@ -98,7 +98,7 @@ def list():
 
 
 @cli.command()
-def create(name: str):
+def create(name: str, src: bool = False):
     prj_type = questionary.select(
         "Project Preset",
         choices=[
@@ -161,7 +161,44 @@ def create(name: str):
             ]
         ).ask()
         if env == "Poetry":
+            if shutil.which("poetry") is None:
+                console.print(f"[red]Poetry not found![/]")
+                return
+
             console.print(f"[green]Creating project with Poetry[/]")
+            if not os.path.exists(get_home_dir()):
+                os.mkdir(get_home_dir())
+
+            domain = questionary.select(
+                "Repository",
+                choices=os.listdir(get_home_dir()) + ["Other"]
+            ).ask()
+            if domain == "Other":
+                domain = questionary.text("Enter Domain(without 'https://'): ").ask()
+                if DOMAIN_REGEX.match(domain) is None:
+                    console.print(f"[red]Invalid domain![/]")
+                    return
+                os.mkdir(os.path.join(get_home_dir(), domain))
+            if domain == "github.com":
+                if not os.path.exists(os.path.join(get_home_dir(), domain)):
+                    os.mkdir(os.path.join(get_home_dir(), domain))
+                user = questionary.select("GitHub Username", choices=os.listdir(os.path.join(get_home_dir(), "github.com"))+["Other"]).ask()
+                if user == "Other":
+                    user = questionary.text("Enter Username: ").ask()
+                domain = os.path.join(domain, user)
+                if not os.path.exists(os.path.join(get_home_dir(), "github.com")):
+                    os.mkdir(os.path.join(get_home_dir(), "github.com"))
+                if not os.path.exists(os.path.join(get_home_dir(), domain)):
+                    os.mkdir(os.path.join(get_home_dir(), domain))
+            if os.path.exists(os.path.join(get_home_dir(), domain, name)):
+                console.print(f"[red]Project already exists![/]")
+                return
+
+            os.chdir(os.path.join(get_home_dir(), domain))
+            if src:
+                out = subprocess.run(["poetry", "new", os.path.join(get_home_dir(), domain, name), "--name", name, "--src"], shell=True)
+            else:
+                out = subprocess.run(["poetry", "new", os.path.join(get_home_dir(), domain, name), "--name", name], shell=True)
             return
         elif env == "Pip":
             if shutil.which("pip") is None:

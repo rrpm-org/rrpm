@@ -161,8 +161,7 @@ def create(name: str, src: bool = False):
             os.mkdir(os.path.join(home, repository))
         user = questionary.select(
             "GitHub Username",
-            choices=os.listdir(os.path.join(home, "github.com"))
-                    + ["Other"],
+            choices=os.listdir(os.path.join(home, "github.com")) + ["Other"],
         ).ask()
         if user == "Other":
             user = questionary.text("Enter Username: ").ask()

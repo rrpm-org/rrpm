@@ -59,7 +59,7 @@ pm_cmd = {
 }
 
 
-@cli.command()
+@cli.command(help="Clone a remote repository to directory specified in config")
 def get(url: str):
     if not url.startswith("http://") and not url.startswith("https://"):
         url = "https://" + url
@@ -115,8 +115,8 @@ def get(url: str):
             console.print(f"[red]Failed to clone with exit status {out.returncode}[/]")
 
 
-@cli.command()
-def list():
+@cli.command(name="list", help="List all cloned repositories and generated projects")
+def list_():
     home_dir = get_home_dir()
     if os.path.exists(home_dir):
         console.print(f"[red]{home_dir}[/]")
@@ -136,7 +136,7 @@ def list():
                             console.print(f"      |- [green]{repo}[/]")
 
 
-@cli.command()
+@cli.command(help="Generate a project from any of the presets and/or its variations")
 def create(name: str, src: bool = False):
     prj_type = questionary.select(
         "Project Preset",
@@ -208,11 +208,11 @@ def create(name: str, src: bool = False):
                 os.chdir(os.path.join(get_home_dir(), domain))
                 console.print(f"[green]Creating project with Vite, {ts} and {package_man}[/]")
                 if config.config['cli']['displayOutput']:
-                    out = subprocess.run(
+                    subprocess.run(
                         pm_cmd["vite"]["react"][ts][package_man],
                         shell=True)
                 else:
-                    out = subprocess.run(
+                    subprocess.run(
                         pm_cmd["vite"]["react"][ts][package_man],
                         shell=True, capture_output=True)
                 return
@@ -220,11 +220,11 @@ def create(name: str, src: bool = False):
                 os.mkdir(os.path.join(get_home_dir(), domain, name))
                 console.print(f"[green]Creating project with create-react-app, {ts} and {package_man}[/]")
                 if config.config['cli']['displayOutput']:
-                    out = subprocess.run(pm_cmd["react"][ts][package_man] + [os.path.join(get_home_dir(), domain, name)],
-                                         shell=True)
+                    subprocess.run(pm_cmd["react"][ts][package_man] + [os.path.join(get_home_dir(), domain, name)],
+                                   shell=True)
                 else:
-                    out = subprocess.run(pm_cmd["react"][ts][package_man] + [os.path.join(get_home_dir(), domain, name)],
-                                         shell=True, capture_output=True)
+                    subprocess.run(pm_cmd["react"][ts][package_man] + [os.path.join(get_home_dir(), domain, name)],
+                                   shell=True, capture_output=True)
                 return
         elif prj_type == "NextJS":
             domain = questionary.select(
@@ -455,7 +455,7 @@ setup(name='{name}',
                         progress.console.print("[green]Files added to git repo successfully![/]")
                         progress.update(write_task, advance=2)
                         progress.console.print("[green]Committing files to git repo[/]")
-                        out = subprocess.run(["git", "commit", "-m", "Initial Commit from pm"],
+                        out = subprocess.run(["git", "commit", "-m", "Initial Commit from rrpm"],
                                              cwd=os.path.join(get_home_dir(), domain, name), capture_output=True)
                         if out.returncode != 0:
                             progress.console.print(f"[red]Failed to commit files to git repo![/]")

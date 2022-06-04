@@ -1,4 +1,4 @@
-from pm import __version__
+from rrpm import __version__
 
 
 def test_version():

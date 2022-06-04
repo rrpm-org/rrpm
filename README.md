@@ -1,7 +1,29 @@
-# pm
-**pm** is the all-in-one project and remote repository management tool. A simple CLI tool that supports project
+# rrpm
+
+**rrpm** is the all-in-one project and remote repository management tool. A simple CLI tool that supports project
 generation for multiple languages, along with support for generating projects using different package managers and/or
 environments
+
+## Installation
+
+As of now, **rrpm** is not available on PyPI yet. So here are the steps for installation.
+
+```bash
+git clone https://github.com/pybash/rrpm
+cd rrpm
+poetry install
+```
+
+## Usage
+
+```bash
+rrpm get github.com/pybash1/rrpm
+# Repository is cloned to ~/Projects on Unix and %USERPROFILE%\Projects on Windows
+rrpm list
+# Lists all cloned and generated projects
+rrpm create <project_name>
+# Answer prompts to generate project
+```
 
 ## Presets
  - [ ] Python
@@ -55,3 +77,9 @@ environments
          - [ ] create-react-app
          - [x] Vite
        - [x] NextJS
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)

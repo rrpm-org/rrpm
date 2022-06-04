@@ -15,9 +15,9 @@ DEFAULT_CONFIG = {
 class Config:
     def __init__(self):
         self.base_path = (
-            os.path.join(os.getenv("LOCALAPPDATA"), "pm")
+            os.path.join(os.getenv("LOCALAPPDATA"), "rrpm")
             if platform.system().lower().startswith("win")
-            else os.path.join(os.getenv("HOME"), ".config", "pm")
+            else os.path.join(os.getenv("HOME"), ".config", "rrpm")
         )
         if not os.path.exists(self.base_path):
             os.mkdir(self.base_path)

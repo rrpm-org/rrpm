@@ -121,7 +121,6 @@ def list_():
         for host in os.listdir(home_dir):
             if not host == "." and not host == "..":
                 console.print(f"  |- [blue]{host}[/]")
-                # console.log(os.listdir(os.path.join(home_dir, host)))
                 if len(os.listdir(os.path.join(home_dir, host))) != 0:
                     if host == "github.com":
                         for user in os.listdir(os.path.join(home_dir, host)):

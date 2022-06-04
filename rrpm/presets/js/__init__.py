@@ -7,9 +7,7 @@ console = Console()
 
 
 def default_questions():
-    lang = questionary.select(
-        "Select Type", choices=["JavaScript", "TypeScript"]
-    ).ask()
+    lang = questionary.select("Select Type", choices=["JavaScript", "TypeScript"]).ask()
     pkg_man = questionary.select(
         "Select Package Manager", choices=["NPM", "Yarn", "Pnpm"]
     ).ask()

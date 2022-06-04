@@ -48,45 +48,33 @@ def pip(repository: str, name: str):
         os.mkdir(os.path.join(home, repository, name, "tests"))
         progress.update(create_task, advance=5)
         time.sleep(1)
-        with open(
-            os.path.join(home, repository, name, "requirements.txt"), "w"
-        ) as f:
+        with open(os.path.join(home, repository, name, "requirements.txt"), "w") as f:
+            f.write("")
+        progress.update(create_task, advance=10)
+        time.sleep(1)
+        with open(os.path.join(home, repository, name, "setup.py"), "w") as f:
             f.write("")
         progress.update(create_task, advance=10)
         time.sleep(1)
         with open(
-            os.path.join(home, repository, name, "setup.py"), "w"
-        ) as f:
-            f.write("")
-        progress.update(create_task, advance=10)
-        time.sleep(1)
-        with open(
-            os.path.join(
-                home, repository, name, "src", name, "__init__.py"
-            ),
+            os.path.join(home, repository, name, "src", name, "__init__.py"),
             "w",
         ) as f:
             f.write("")
         progress.update(create_task, advance=10)
         time.sleep(1)
         with open(
-            os.path.join(
-                home, repository, name, "src", name, f"{name}.py"
-            ),
+            os.path.join(home, repository, name, "src", name, f"{name}.py"),
             "w",
         ) as f:
             f.write("")
         progress.update(create_task, advance=10)
         time.sleep(1)
-        with open(
-            os.path.join(home, repository, name, "README.md"), "w"
-        ) as f:
+        with open(os.path.join(home, repository, name, "README.md"), "w") as f:
             f.write("")
         progress.update(create_task, advance=10)
         time.sleep(1)
-        with open(
-            os.path.join(home, repository, name, "LICENSE"), "w"
-        ) as f:
+        with open(os.path.join(home, repository, name, "LICENSE"), "w") as f:
             f.write("")
         progress.update(create_task, advance=10)
         time.sleep(1)
@@ -98,9 +86,7 @@ def pip(repository: str, name: str):
         progress.update(create_task, advance=10)
         time.sleep(1)
         with open(
-            os.path.join(
-                home, repository, name, "tests", f"test_{name}.py"
-            ),
+            os.path.join(home, repository, name, "tests", f"test_{name}.py"),
             "w",
         ) as f:
             f.write("")
@@ -110,29 +96,21 @@ def pip(repository: str, name: str):
         for dep in deps:
             out = subprocess.run(["pip", "install", dep], capture_output=True)
             if out.returncode != 0:
-                progress.console.print(
-                    f"[red]Failed to install dependency: {dep}[/]"
-                )
+                progress.console.print(f"[red]Failed to install dependency: {dep}[/]")
             else:
                 progress.console.print(
                     f"[green]Dependency: {dep.lstrip().rstrip()} installed successfully![/]"
                 )
             progress.update(write_task, advance=dep_progress)
-        progress.console.print(
-            "[green]All dependencies installed successfully![/]"
-        )
+        progress.console.print("[green]All dependencies installed successfully![/]")
         progress.console.print("[green]Writing dependencies to files[/]")
-        with open(
-            os.path.join(home, repository, name, "requirements.txt"), "w"
-        ) as f:
+        with open(os.path.join(home, repository, name, "requirements.txt"), "w") as f:
             for dep in deps:
                 f.write(f"{dep.lstrip().rstrip()}\n")
         progress.update(write_task, advance=20)
         time.sleep(1)
         progress.console.print("[green]Writing setup.py[/]")
-        with open(
-            os.path.join(home, repository, name, "setup.py"), "w"
-        ) as f:
+        with open(os.path.join(home, repository, name, "setup.py"), "w") as f:
             f.write(
                 f"""from setuptools import setup
 setup(name='{name}',
@@ -151,9 +129,7 @@ classifiers=[]
         progress.update(write_task, advance=20)
         time.sleep(1)
         progress.console.print("[green]Writing pyproject.toml[/]")
-        with open(
-            os.path.join(home, repository, name, "pyproject.toml"), "w"
-        ) as f:
+        with open(os.path.join(home, repository, name, "pyproject.toml"), "w") as f:
             f.write(
                 f"[build-system]\n"
                 f"requires = ['setuptools>=42']\n"
@@ -171,9 +147,7 @@ classifiers=[]
         if out.returncode != 0:
             progress.console.print(f"[red]Failed to initialize git repo![/]")
         else:
-            progress.console.print(
-                "[green]Git repo initialized successfully![/]"
-            )
+            progress.console.print("[green]Git repo initialized successfully![/]")
             progress.update(write_task, advance=1)
             progress.console.print("[green]Adding files to git repo[/]")
             out = subprocess.run(
@@ -182,9 +156,7 @@ classifiers=[]
                 capture_output=True,
             )
             if out.returncode != 0:
-                progress.console.print(
-                    f"[red]Failed to add files to git repo![/]"
-                )
+                progress.console.print("[red]Failed to add files to git repo![/]")
             else:
                 progress.console.print(
                     "[green]Files added to git repo successfully![/]"

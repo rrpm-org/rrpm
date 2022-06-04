@@ -12,10 +12,8 @@ GH_REGEX = re.compile(r"(https://)?(www\.)?github\.com/[A-Za-z0-9_-]+/?")
 
 def get_home_dir():
     if sys.platform.lower().startswith("win"):
-        return os.path.realpath(
-            os.path.expandvars(config.config['root']['dir'])
-        )
-    return os.path.realpath(os.path.expanduser(config.config['root']['dir']))
+        return os.path.realpath(os.path.expandvars(config.config["root"]["dir"]))
+    return os.path.realpath(os.path.expanduser(config.config["root"]["dir"]))
 
 
 def get_domain(url: str) -> str:

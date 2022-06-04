@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "rrpm"
-version = "1.0.0"
+version = "1.1.0"
 description = "A tool to manage all your projects easily!"
 readme = "README.md"
 homepage = "https://github.com/pybash1/rrpm"
@@ -16,9 +16,10 @@ questionary = "^1.10.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
+black = "^22.3.0"
 
 [tool.poetry.scripts]
-pm = 'rrpm.rrpm:cli'
+rrpm = 'rrpm.rrpm:cli'
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

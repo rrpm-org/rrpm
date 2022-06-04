@@ -2,13 +2,18 @@ import os
 import platform
 import toml
 
-DEFAULT_CONFIG = {
+WIN_DEFAULT_CONFIG = {
     "root": {
-        "dir": "Projects",
+        "dir": "%USERPROFILE%\\Projects",
     },
-    "cli": {
-        "displayOutput": False
-    }
+    "cli": {"displayOutput": False},
+}
+
+UNIX_DEFAULT_CONFIG = {
+    "root": {
+        "dir": "~/Projects",
+    },
+    "cli": {"displayOutput": False},
 }
 
 
@@ -23,7 +28,10 @@ class Config:
             os.mkdir(self.base_path)
             if not os.path.exists(os.path.join(self.base_path, "config.toml")):
                 with open(os.path.join(self.base_path, "config.toml"), "w") as f:
-                    toml_ = toml.dump(DEFAULT_CONFIG, f)
+                    if platform.system().lower().startswith("win"):
+                        toml.dump(WIN_DEFAULT_CONFIG, f)
+                    else:
+                        toml.dump(UNIX_DEFAULT_CONFIG, f)
 
     @property
     def config_path(self):

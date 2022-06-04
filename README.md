@@ -15,12 +15,20 @@ pip install rrpm
 ## Usage
 
 ```bash
-rrpm get github.com/pybash1/rrpm
-# Repository is cloned to ~/Projects on Unix and %USERPROFILE%\Projects on Windows
-rrpm list
-# Lists all cloned and generated projects
-rrpm create <project_name>
-# Answer prompts to generate project
+Usage: python -m rrpm [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --install-completion [bash|zsh|fish|powershell|pwsh]
+                                  Install completion for the specified shell.
+  --show-completion [bash|zsh|fish|powershell|pwsh]
+                                  Show completion for the specified shell, to
+                                  copy it or customize the installation.
+  --help                          Show this message and exit.
+
+Commands:
+  create  Generate a project from any of the presets and/or its variations
+  get     Clone a remote repository to directory specified in config
+  list    List all cloned repositories and generated projects
 ```
 
 ## Presets

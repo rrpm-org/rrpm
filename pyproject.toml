@@ -13,7 +13,7 @@ toml = "^0.10.2"
 questionary = "^1.10.0"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
+pytest = "^7.1.2"
 
 [tool.poetry.scripts]
 pm = 'pm.pm:cli'

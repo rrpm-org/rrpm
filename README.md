@@ -5,12 +5,14 @@ environments
 
 ## Presets
  - [ ] Python
-   - [ ] Pip
+   - [x] Pip
      - [x] Python Package
-     - [ ] FastAPI
-     - [ ] Flask
+     - [x] FastAPI
+     - [x] Flask
    - [x] Poetry
      - [x] Python Package
+     - [x] FastAPI
+     - [x] Flask
    - [ ] Virtual Environments
      - [ ] Python Package
      - [ ] FastAPI
@@ -19,37 +21,37 @@ environments
     - [ ] NPM
       - [ ] NodeJS
       - [ ] ReactJS
-        - [ ] create-react-app
-        - [ ] Vite
+        - [x] create-react-app
+        - [x] Vite
       - [x] NextJS
     - [ ] Yarn
       - [ ] NodeJS
       - [ ] ReactJS
-        - [ ] create-react-app
-        - [ ] Vite
+        - [x] create-react-app
+        - [x] Vite
       - [x] NextJS
     - [ ] Pnpm
       - [ ] NodeJS
       - [ ] ReactJS
         - [ ] create-react-app
-        - [ ] Vite
+        - [x] Vite
       - [x] NextJS
  - [ ] TypeScript
      - [ ] NPM
        - [ ] NodeJS
        - [ ] ReactJS
-         - [ ] create-react-app
-         - [ ] Vite
+         - [x] create-react-app
+         - [x] Vite
        - [x] NextJS
      - [ ] Yarn
        - [ ] NodeJS
        - [ ] ReactJS
-         - [ ] create-react-app
-         - [ ] Vite
+         - [x] create-react-app
+         - [x] Vite
        - [x] NextJS
      - [ ] Pnpm
        - [ ] NodeJS
        - [ ] ReactJS
          - [ ] create-react-app
-         - [ ] Vite
+         - [x] Vite
        - [x] NextJS

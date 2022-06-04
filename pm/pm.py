@@ -20,16 +20,42 @@ cli = Typer()
 DOMAIN_REGEX = re.compile(r"([a-zA-Z0-9_-]+\.)?(.*)\.([a-zA-Z]+)")
 
 pm_cmd = {
-    "TypeScript": {
-        "NPM": ["npx", "create-next-app@latest", "--ts"],
-        "Yarn": ["yarn", "create", "next-app", "--typescript"],
-        "Pnpm": ["pnpm", "create", "next-app", "--", "--ts"],
+    "nextjs": {
+        "TypeScript": {
+            "NPM": ["npx", "create-next-app@latest", "--ts"],
+            "Yarn": ["yarn", "create", "next-app", "--typescript"],
+            "Pnpm": ["pnpm", "create", "next-app", "--", "--ts"],
+        },
+        "JavaScript": {
+            "NPM": ["npx", "create-next-app@latest"],
+            "Yarn": ["yarn", "create", "next-app"],
+            "Pnpm": ["pnpm", "create", "next-app"],
+        },
     },
-    "JavaScript": {
-        "NPM": ["npx", "create-next-app@latest"],
-        "Yarn": ["yarn", "create", "next-app"],
-        "Pnpm": ["pnpm", "create", "next-app"],
+    "react": {
+        "TypeScript": {
+            "NPM": ["npx", "create-react-app", "--template", "typescript"],
+            "Yarn": ["yarn", "create", "react-app", "--template", "typescript"],
+        },
+        "JavaScript": {
+            "NPM": ["npx", "create-react-app@latest"],
+            "Yarn": ["yarn", "create", "react-app"],
+        },
     },
+    "vite": {
+        "react": {
+            "TypeScript": {
+                "NPM": ["npm", "create", "vite@latest", "--", "--template", "react-ts"],
+                "Yarn": ["yarn", "create", "vite", "--template", "react-ts"],
+                "Pnpm": ["yarn", "create", "vite", "--", "--template", "react-ts"]
+            },
+            "JavaScript": {
+                "NPM": ["npm", "create", "vite@latest", "--", "--template", "react"],
+                "Yarn": ["yarn", "create", "vite", "--template", "react"],
+                "Pnpm": ["yarn", "create", "vite", "--", "--template", "react"]
+            },
+        }
+    }
 }
 
 
@@ -146,15 +172,59 @@ def create(name: str, src: bool = False):
             console.print(f"[red]NPX not found![/]")
             return
         if prj_type == "React":
+            if package_man == "Pnpm":
+                console.print("[red]Pnpm is not supported for React projects yet![/]")
             bundler = questionary.select(
                 "Bundler",
                 choices=["Vite", "create-react-app"]
             ).ask()
+            domain = questionary.select(
+                "Repository",
+                choices=os.listdir(get_home_dir()) + ["Other"]
+            ).ask()
+            if domain == "Other":
+                domain = questionary.text("Enter Domain(without 'https://'): ").ask()
+                if DOMAIN_REGEX.match(domain) is None:
+                    console.print(f"[red]Invalid domain![/]")
+                    return
+                os.mkdir(os.path.join(get_home_dir(), domain))
+            if domain == "github.com":
+                if not os.path.exists(os.path.join(get_home_dir(), domain)):
+                    os.mkdir(os.path.join(get_home_dir(), domain))
+                user = questionary.select("GitHub Username",
+                                          choices=os.listdir(os.path.join(get_home_dir(), "github.com")) + [
+                                              "Other"]).ask()
+                if user == "Other":
+                    user = questionary.text("Enter Username: ").ask()
+                domain = os.path.join(domain, user)
+                if not os.path.exists(os.path.join(get_home_dir(), "github.com")):
+                    os.mkdir(os.path.join(get_home_dir(), "github.com"))
+                if not os.path.exists(os.path.join(get_home_dir(), domain)):
+                    os.mkdir(os.path.join(get_home_dir(), domain))
+            if os.path.exists(os.path.join(get_home_dir(), domain, name)):
+                console.print(f"[red]Project already exists![/]")
+                return
             if bundler == "Vite":
+                os.chdir(os.path.join(get_home_dir(), domain))
                 console.print(f"[green]Creating project with Vite, {ts} and {package_man}[/]")
+                if config.config['cli']['displayOutput']:
+                    out = subprocess.run(
+                        pm_cmd["vite"]["react"][ts][package_man],
+                        shell=True)
+                else:
+                    out = subprocess.run(
+                        pm_cmd["vite"]["react"][ts][package_man],
+                        shell=True, capture_output=True)
                 return
             elif bundler == "create-react-app":
+                os.mkdir(os.path.join(get_home_dir(), domain, name))
                 console.print(f"[green]Creating project with create-react-app, {ts} and {package_man}[/]")
+                if config.config['cli']['displayOutput']:
+                    out = subprocess.run(pm_cmd["react"][ts][package_man] + [os.path.join(get_home_dir(), domain, name)],
+                                         shell=True)
+                else:
+                    out = subprocess.run(pm_cmd["react"][ts][package_man] + [os.path.join(get_home_dir(), domain, name)],
+                                         shell=True, capture_output=True)
                 return
         elif prj_type == "NextJS":
             domain = questionary.select(
@@ -186,9 +256,9 @@ def create(name: str, src: bool = False):
             os.mkdir(os.path.join(get_home_dir(), domain, name))
             console.print(f"[green]Creating project with create-next-app, {ts} and {package_man}[/]")
             if config.config['cli']['displayOutput']:
-                out = subprocess.run(pm_cmd[ts][package_man]+[os.path.join(get_home_dir(), domain, name)], shell=True)
+                out = subprocess.run(pm_cmd["nextjs"][ts][package_man]+[os.path.join(get_home_dir(), domain, name)], shell=True)
             else:
-                out = subprocess.run(pm_cmd[ts][package_man]+[os.path.join(get_home_dir(), domain, name)], shell=True, capture_output=True)
+                out = subprocess.run(pm_cmd["nextjs"][ts][package_man]+[os.path.join(get_home_dir(), domain, name)], shell=True, capture_output=True)
             return
         elif prj_type == "NodeJS":
             console.print(f"[green]Creating project with NodeJS[/]")

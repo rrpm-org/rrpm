@@ -20,13 +20,13 @@ environments
  - [ ] JavaScript
     - [ ] NPM
       - [ ] NodeJS
-      - [ ] ReactJS
+      - [x] ReactJS
         - [x] create-react-app
         - [x] Vite
       - [x] NextJS
     - [ ] Yarn
       - [ ] NodeJS
-      - [ ] ReactJS
+      - [x] ReactJS
         - [x] create-react-app
         - [x] Vite
       - [x] NextJS
@@ -39,13 +39,13 @@ environments
  - [ ] TypeScript
      - [ ] NPM
        - [ ] NodeJS
-       - [ ] ReactJS
+       - [x] ReactJS
          - [x] create-react-app
          - [x] Vite
        - [x] NextJS
      - [ ] Yarn
        - [ ] NodeJS
-       - [ ] ReactJS
+       - [x] ReactJS
          - [x] create-react-app
          - [x] Vite
        - [x] NextJS

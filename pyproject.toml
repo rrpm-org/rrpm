@@ -2,6 +2,8 @@
 name = "rrpm"
 version = "1.0.0"
 description = "A tool to manage all your projects easily!"
+readme = "README.md"
+homepage = "https://github.com/pybash1/rrpm"
 authors = ["pybash1 <example@example.com>"]
 license = "MIT"
 

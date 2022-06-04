@@ -6,12 +6,10 @@ environments
 
 ## Installation
 
-As of now, **rrpm** is not available on PyPI yet. So here are the steps for installation.
+`rrpm` can be installed from PyPI
 
 ```bash
-git clone https://github.com/pybash/rrpm
-cd rrpm
-poetry install
+pip install rrpm
 ```
 
 ## Usage

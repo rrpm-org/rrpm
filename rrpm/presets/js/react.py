@@ -18,7 +18,7 @@ def npm(repository: str, name: str):
         sys.exit(1)
     if bundler == "Vite":
         os.chdir(os.path.join(get_home_dir(), repository))
-        console.print(f"[green]Creating project with Vite, JavaScript and NPM[/]")
+        console.print("[green]Creating project with Vite, JavaScript and NPM[/]")
         if config.config["cli"]["displayOutput"]:
             subprocess.run(
                 ["npm", "create", "vite@latest", name, "--", "--template", "react"],
@@ -57,7 +57,7 @@ def yarn(repository: str, name: str):
         sys.exit(1)
     if bundler == "Vite":
         os.chdir(os.path.join(home, repository))
-        console.print(f"[green]Creating project with Vite, JavaScript and Yarn[/]")
+        console.print("[green]Creating project with Vite, JavaScript and Yarn[/]")
         if config.config["cli"]["displayOutput"]:
             subprocess.run(
                 ["yarn", "create", "vite", name, "--template", "react"], shell=True
@@ -95,7 +95,7 @@ def pnpm(repository: str, name: str):
         sys.exit(1)
     if bundler == "Vite":
         os.chdir(os.path.join(home, repository))
-        console.print(f"[green]Creating project with Vite, JavaScript and Pnpm[/]")
+        console.print("[green]Creating project with Vite, JavaScript and Pnpm[/]")
         if config.config["cli"]["displayOutput"]:
             subprocess.run(
                 ["pnpm", "create", "vite", name, "--", "--template", "react"],

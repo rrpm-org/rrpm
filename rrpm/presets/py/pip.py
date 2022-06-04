@@ -156,7 +156,7 @@ classifiers=[]
                 capture_output=True,
             )
             if out.returncode != 0:
-                progress.console.print(f"[red]Failed to add files to git repo![/]")
+                progress.console.print("[red]Failed to add files to git repo![/]")
             else:
                 progress.console.print(
                     "[green]Files added to git repo successfully![/]"

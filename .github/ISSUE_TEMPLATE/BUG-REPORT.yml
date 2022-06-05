@@ -50,7 +50,7 @@ body:
         - ConEmu (Cmder)
         - Other
   - type: dropdown
-    id: terminal
+    id: os
     attributes:
       label: What operating system did you see the problem on?
       multiple: true

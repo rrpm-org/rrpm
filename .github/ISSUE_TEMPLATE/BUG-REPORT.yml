@@ -1,0 +1,80 @@
+name: Bug Report
+description: File a bug report
+title: "[Bug]: "
+labels: ["bug", "triage"]
+assignees:
+  - pybash1
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: ex. email@example.com
+    validations:
+      required: false
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Also tell us, what did you expect to happen?
+      placeholder: Tell us what you see!
+      value: "A bug happened!"
+    validations:
+      required: true
+  - type: dropdown
+    id: version
+    attributes:
+      label: Version
+      description: What version of RRPM are you using?
+      options:
+        - 1.1.0 (Latest Stable)
+        - 1.0.0 (Broken)
+    validations:
+      required: true
+  - type: dropdown
+    id: terminal
+    attributes:
+      label: What terminal did you see the problem on?
+      multiple: true
+      options:
+        - Windows Terminal
+        - Alacritty
+        - Kitty
+        - CMD.exe
+        - PowerShell
+        - ConEmu (Cmder)
+        - Other
+  - type: dropdown
+    id: terminal
+    attributes:
+      label: What operating system did you see the problem on?
+      multiple: true
+      options:
+        - Windows 10 or newer
+        - Windows 7 or older
+        - MacOS X or newer
+        - MacOS 9 or older
+        - ArchLinux Based
+        - Debian Based
+        - Other Linux
+        - OpenBSD
+        - Other
+  - type: textarea
+    id: traceback
+    attributes:
+      label: Relevant tracebacks/errors
+      description: Please copy and paste any relevant tracebacks. This will be automatically formatted into code, so no need for backticks.
+      render: python
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true

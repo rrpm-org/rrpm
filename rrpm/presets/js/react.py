@@ -1,4 +1,5 @@
 import os
+import shutil
 import sys
 import subprocess
 import questionary
@@ -30,7 +31,6 @@ def npm(repository: str, name: str):
                 shell=True,
                 capture_output=True,
             )
-        return
     else:
         os.chdir(os.path.join(home, repository))
         console.print(
@@ -47,7 +47,6 @@ def npm(repository: str, name: str):
                 shell=True,
                 capture_output=True,
             )
-        return
 
 
 def yarn(repository: str, name: str):
@@ -68,7 +67,6 @@ def yarn(repository: str, name: str):
                 shell=True,
                 capture_output=True,
             )
-        return
     else:
         os.chdir(os.path.join(home, repository))
         console.print(
@@ -85,11 +83,10 @@ def yarn(repository: str, name: str):
                 shell=True,
                 capture_output=True,
             )
-        return
 
 
 def pnpm(repository: str, name: str):
-    bundler = questionary.select("Bundler", choices=["Vite"]).ask()
+    bundler = questionary.select("Bundler", choices=["Vite", "create-react-app"]).ask()
     if os.path.exists(os.path.join(home, repository, name)):
         console.print(f"[red]Project already exists![/]")
         sys.exit(1)
@@ -107,4 +104,21 @@ def pnpm(repository: str, name: str):
                 shell=True,
                 capture_output=True,
             )
-        return
+    else:
+        if shutil.which("pnpx") is None:
+            console.print("[red]Pnpx is not installed![/]")
+        os.chdir(os.path.join(home, repository))
+        console.print(
+            f"[green]Creating project with create-react-app, JavaScript and Pnpm[/]"
+        )
+        if config.config["cli"]["display_output"]:
+            subprocess.run(
+                ["pnpx", "create-react-app", name],
+                shell=True,
+            )
+        else:
+            subprocess.run(
+                ["pnpx", "create-react-app", name],
+                shell=True,
+                capture_output=True,
+            )

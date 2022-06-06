@@ -42,6 +42,20 @@ def get(url: str):
     if not os.path.exists(os.path.join(home_dir, domain)):
         os.mkdir(os.path.join(home_dir, domain))
 
+    for ext in config.config["extensions"]["hooks"]:
+        try:
+            load_extension(
+                os.path.expandvars(
+                    os.path.expanduser(config.config["root"]["ext_dir"])
+                ),
+                ext,
+            ).pre_fetch(url)
+        except Exception:
+            console.print(
+                f"[red]Exception occured in extension: {ext}[/]"
+            )
+            console.print_exception()
+            return
     if is_github_url(url):
         username, reponame = get_github_user_repo(url)
         user_dir = os.path.join(home_dir, "github.com", username)
@@ -97,6 +111,20 @@ def get(url: str):
             console.print(f"[red]Repository already exists[/]")
         else:
             console.print(f"[red]Failed to clone with exit status {out.returncode}[/]")
+    for ext in config.config["extensions"]["hooks"]:
+        try:
+            load_extension(
+                os.path.expandvars(
+                    os.path.expanduser(config.config["root"]["ext_dir"])
+                ),
+                ext,
+            ).post_fetch(url)
+        except Exception:
+            console.print(
+                f"[red]Exception occured in extension: {ext}[/]"
+            )
+            console.print_exception()
+            return
 
 
 @cli.command(name="list", help="List all cloned repositories and generated projects")
@@ -126,7 +154,7 @@ def create(name: str, src: bool = False):
     home = get_home_dir()
     exts = []
     base_choices = ["Python", "FastAPI", "Flask", "NodeJS", "React", "NextJS"]
-    for ext in config.config["cli"]["extensions"]:
+    for ext in config.config["extensions"]["presets"]:
         try:
             ext_ = (
                 load_extension(

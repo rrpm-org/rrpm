@@ -93,8 +93,8 @@ RRPM requires Python >=3.7
       - [x] NextJS
     - [ ] Pnpm
       - [ ] NodeJS
-      - [ ] ReactJS
-        - [ ] create-react-app
+      - [x] ReactJS
+        - [x] create-react-app
         - [x] Vite
       - [x] NextJS
  - [ ] TypeScript
@@ -112,8 +112,8 @@ RRPM requires Python >=3.7
        - [x] NextJS
      - [ ] Pnpm
        - [ ] NodeJS
-       - [ ] ReactJS
-         - [ ] create-react-app
+       - [x] ReactJS
+         - [x] create-react-app
          - [x] Vite
        - [x] NextJS
 

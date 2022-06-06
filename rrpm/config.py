@@ -9,10 +9,11 @@ WIN_DEFAULT_CONFIG = {
     },
     "cli": {
         "display_output": False,
-        "extensions": [],
+        "ignore_extension_load_error": False,
     },
     "extensions": {
-        "ignore_extension_load_error": False,
+        "presets": [],
+        "hooks": []
     },
 }
 
@@ -23,10 +24,11 @@ UNIX_DEFAULT_CONFIG = {
     },
     "cli": {
         "display_output": False,
-        "extensions": [],
+        "ignore_extension_load_error": False,
     },
     "extensions": {
-        "ignore_extension_load_error": False,
+        "presets": [],
+        "hooks": []
     },
 }
 

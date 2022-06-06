@@ -19,7 +19,7 @@ def npm(repository: str, name: str):
     if bundler == "Vite":
         os.chdir(os.path.join(get_home_dir(), repository))
         console.print("[green]Creating project with Vite, JavaScript and NPM[/]")
-        if config.config["cli"]["displayOutput"]:
+        if config.config["cli"]["display_output"]:
             subprocess.run(
                 ["npm", "create", "vite@latest", name, "--", "--template", "react"],
                 shell=True,
@@ -36,7 +36,7 @@ def npm(repository: str, name: str):
         console.print(
             f"[green]Creating project with create-react-app, JavaScript and NPM[/]"
         )
-        if config.config["cli"]["displayOutput"]:
+        if config.config["cli"]["display_output"]:
             subprocess.run(
                 ["npx", "create-react-app@latest", name],
                 shell=True,
@@ -58,7 +58,7 @@ def yarn(repository: str, name: str):
     if bundler == "Vite":
         os.chdir(os.path.join(home, repository))
         console.print("[green]Creating project with Vite, JavaScript and Yarn[/]")
-        if config.config["cli"]["displayOutput"]:
+        if config.config["cli"]["display_output"]:
             subprocess.run(
                 ["yarn", "create", "vite", name, "--template", "react"], shell=True
             )
@@ -74,7 +74,7 @@ def yarn(repository: str, name: str):
         console.print(
             f"[green]Creating project with create-react-app, JavaScript and Yarn[/]"
         )
-        if config.config["cli"]["displayOutput"]:
+        if config.config["cli"]["display_output"]:
             subprocess.run(
                 ["yarn", "create", "react-app", name],
                 shell=True,
@@ -96,7 +96,7 @@ def pnpm(repository: str, name: str):
     if bundler == "Vite":
         os.chdir(os.path.join(home, repository))
         console.print("[green]Creating project with Vite, JavaScript and Pnpm[/]")
-        if config.config["cli"]["displayOutput"]:
+        if config.config["cli"]["display_output"]:
             subprocess.run(
                 ["pnpm", "create", "vite", name, "--", "--template", "react"],
                 shell=True,

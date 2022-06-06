@@ -19,7 +19,7 @@ def npm(repository: str, name: str):
     if bundler == "Vite":
         os.chdir(os.path.join(get_home_dir(), repository))
         console.print("[green]Creating project with Vite, TypeScript and NPM[/]")
-        if config.config["cli"]["displayOutput"]:
+        if config.config["cli"]["display_output"]:
             subprocess.run(
                 ["npm", "create", "vite@latest", name, "--", "--template", "react-ts"],
                 shell=True,
@@ -36,7 +36,7 @@ def npm(repository: str, name: str):
         console.print(
             f"[green]Creating project with create-react-app, TypeScript and NPM[/]"
         )
-        if config.config["cli"]["displayOutput"]:
+        if config.config["cli"]["display_output"]:
             subprocess.run(
                 ["npx", "create-react-app@latest", name, "--template", "typescript"],
                 shell=True,
@@ -58,7 +58,7 @@ def yarn(repository: str, name: str):
     if bundler == "Vite":
         os.chdir(os.path.join(home, repository))
         console.print("[green]Creating project with Vite, TypeScript and Yarn[/]")
-        if config.config["cli"]["displayOutput"]:
+        if config.config["cli"]["display_output"]:
             subprocess.run(
                 ["yarn", "create", "vite", name, "--template", "react-ts"], shell=True
             )
@@ -74,7 +74,7 @@ def yarn(repository: str, name: str):
         console.print(
             f"[green]Creating project with create-react-app, TypeScript and Yarn[/]"
         )
-        if config.config["cli"]["displayOutput"]:
+        if config.config["cli"]["display_output"]:
             subprocess.run(
                 ["yarn", "create", "react-app", name, "--template", "typescript"],
                 shell=True,
@@ -98,7 +98,7 @@ def pnpm(repository: str, name: str):
     if bundler == "Vite":
         os.chdir(os.path.join(home, repository))
         console.print("[green]Creating project with Vite, TypeScript and Pnpm[/]")
-        if config.config["cli"]["displayOutput"]:
+        if config.config["cli"]["display_output"]:
             subprocess.run(
                 ["pnpm", "create", "vite", name, "--", "--template", "react-ts"],
                 shell=True,

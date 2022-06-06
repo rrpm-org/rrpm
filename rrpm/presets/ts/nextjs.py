@@ -17,7 +17,7 @@ def npm(repository: str, name: str):
     console.print(
         f"[green]Creating project with create-next-app, TypeScript and NPM[/]"
     )
-    if config.config["cli"]["displayOutput"]:
+    if config.config["cli"]["display_output"]:
         subprocess.run(
             ["npx", "create-next-app@latest", name, "--ts"],
             shell=True,
@@ -39,7 +39,7 @@ def yarn(repository: str, name: str):
     console.print(
         f"[green]Creating project with create-next-app, TypeScript and Yarn[/]"
     )
-    if config.config["cli"]["displayOutput"]:
+    if config.config["cli"]["display_output"]:
         subprocess.run(
             ["yarn", "create", "next-app", name, "--typescript"],
             shell=True,
@@ -61,7 +61,7 @@ def pnpm(repository: str, name: str):
     console.print(
         f"[green]Creating project with create-next-app, TypeScript and Pnpm[/]"
     )
-    if config.config["cli"]["displayOutput"]:
+    if config.config["cli"]["display_output"]:
         subprocess.run(
             ["pnpm", "create", "next-app", name, "--", "--ts"],
             shell=True,

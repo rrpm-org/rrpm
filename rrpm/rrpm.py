@@ -18,6 +18,7 @@ from .presets.ts.nextjs import npm as njtnpm, yarn as njtyarn, pnpm as njtpnpm
 from .presets.js.node import npm as njnpm, yarn as njyarn, pnpm as njpnpm
 from .presets.ts.node import npm as ntnpm, yarn as ntyarn, pnpm as ntpnpm
 from .utils import get_home_dir, get_domain, is_github_url, get_github_user_repo
+from .ext.loader import load_extension
 from .config import Config
 
 console = Console()
@@ -66,7 +67,7 @@ def get(url: str):
         if not os.path.exists(user_dir):
             os.mkdir(user_dir)
             console.print(f"[green]Fetching GitHub Repository[/]")
-            if config.config["cli"]["displayOutput"] is True:
+            if config.config["cli"]["display_output"] is True:
                 out = subprocess.run(["git", "clone", url, repo_dir])
             else:
                 out = subprocess.run(
@@ -82,7 +83,7 @@ def get(url: str):
                 )
         else:
             console.print(f"[green]Fetching GitHub Repository[/]")
-            if config.config["cli"]["displayOutput"] is True:
+            if config.config["cli"]["display_output"] is True:
                 out = subprocess.run(["git", "clone", url, repo_dir])
             else:
                 out = subprocess.run(
@@ -98,7 +99,7 @@ def get(url: str):
                 )
     else:
         console.print(f"[green]Fetching {domain}[/]")
-        if config.config["cli"]["displayOutput"] is True:
+        if config.config["cli"]["display_output"] is True:
             out = subprocess.run(["git", "clone", url, os.path.join(home_dir, domain)])
         else:
             out = subprocess.run(
@@ -138,9 +139,30 @@ def list_():
 @cli.command(help="Generate a project from any of the presets and/or its variations")
 def create(name: str, src: bool = False):
     home = get_home_dir()
+    exts = []
+    base_choices = ["Python", "FastAPI", "Flask", "NodeJS", "React", "NextJS"]
+    for ext in config.config["cli"]["extensions"]:
+        try:
+            ext_ = load_extension(os.path.expandvars(os.path.expanduser(config.config["root"]["ext_dir"])), ext).Preset().name
+            exts.append({ext_: load_extension(config.config["root"]["ext_dir"], ext)})
+            base_choices += [ext_]
+        except Exception:
+            try:
+                if config.config["extensions"]["ignore_extension_load_error"] is True:
+                    console.print(f"[red]Failed to load extension {ext}[/]")
+                else:
+                    console.print(f"[red]Failed to load extension {ext}[/]")
+                    console.print_exception()
+                    console.print(f"[red]To disable exitting the program, consider adding ignore_extension_load_error = true to your config file.[/]")
+                    return
+            except KeyError:
+                console.print(f"[red]Failed to load extension {ext}[/]")
+                console.print_exception()
+                console.print(f"[red]To disable exitting the program, consider adding ignore_extension_load_error = true to your config file.[/]")
+                return
     prj_type = questionary.select(
         "Project Preset",
-        choices=["Python", "FastAPI", "Flask", "NodeJS", "React", "NextJS"],
+        choices=base_choices,
     ).ask()
     try:
         repository = questionary.select(
@@ -175,7 +197,7 @@ def create(name: str, src: bool = False):
             venv()
         else:
             console.print("[red]Invalid package manager selected[/]")
-    else:
+    elif prj_type in ["NodeJS", "React", "NextJS"]:
         lang, pkg = js_q()
         if lang == "TypeScript":
             if prj_type == "React":
@@ -221,6 +243,25 @@ def create(name: str, src: bool = False):
                     njyarn()
                 else:
                     njpnpm()
+    else:
+        for ext in exts:
+            if ext.get(prj_type) is not None:
+                try:
+                    ext[prj_type].Preset().on_select(repository, name)
+                except Exception:
+                    console.print(f"[red]Exception occured in extension: {ext[prj_type].__file__}[/]")
+                    console.print_exception()
+                    return
+                break
+
+
+@cli.command(name="config", help="View current config file or regenerate config file")
+def view_config(regenerate: bool = False):
+    if regenerate is True:
+        config.regenerate()
+        console.print("[green]Config file regenerated successfully![/]")
+    else:
+        console.print(config.config)
 
 
 if __name__ == "__main__":

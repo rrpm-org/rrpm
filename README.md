@@ -33,7 +33,7 @@ using different package managers and/or environments. This repository contains t
 pip install rrpm
 ```
 
-Complete documentation is still unavailable! Feel free to contribute it!
+Complete documentation can be found on [GitBook](https://pybash.gitbook.io/rrpm)
 
 ## Usage
 

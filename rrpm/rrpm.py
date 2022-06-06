@@ -27,21 +27,6 @@ cli = Typer()
 
 DOMAIN_REGEX = re.compile(r"([a-zA-Z0-9_-]+\.)?(.*)\.([a-zA-Z]+)")
 
-pm_cmd = {
-    "nextjs": {
-        "TypeScript": {
-            "NPM": ["npx", "create-next-app@latest", "--ts"],
-            "Yarn": ["yarn", "create", "next-app", "--typescript"],
-            "Pnpm": ["pnpm", "create", "next-app", "--", "--ts"],
-        },
-        "JavaScript": {
-            "NPM": ["npx", "create-next-app@latest"],
-            "Yarn": ["yarn", "create", "next-app"],
-            "Pnpm": ["pnpm", "create", "next-app"],
-        },
-    },
-}
-
 
 @cli.command(help="Clone a remote repository to directory specified in config")
 def get(url: str):

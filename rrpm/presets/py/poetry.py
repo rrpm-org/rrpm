@@ -44,4 +44,3 @@ def poetry(repository: str, name: str, src: bool = False):
             ],
             shell=True,
         )
-    return

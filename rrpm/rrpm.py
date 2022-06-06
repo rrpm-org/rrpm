@@ -220,7 +220,7 @@ def create(name: str, src: bool = False):
         elif env == "Pip":
             pip(repository, name)
         elif env == "Virtual Environment":
-            venv()
+            venv(repository, name)
         else:
             console.print("[red]Invalid package manager selected[/]")
     elif prj_type in ["NodeJS", "React", "NextJS"]:

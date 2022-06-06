@@ -65,7 +65,7 @@ Feel free to **file a new issue** with a respective title and description on the
 RRPM requires Python >=3.7
 
 ## Presets
- - [ ] Python
+ - [x] Python
    - [x] Pip
      - [x] Python Package
      - [x] FastAPI
@@ -74,10 +74,10 @@ RRPM requires Python >=3.7
      - [x] Python Package
      - [x] FastAPI
      - [x] Flask
-   - [ ] Virtual Environments
-     - [ ] Python Package
-     - [ ] FastAPI
-     - [ ] Flask
+   - [x] Virtual Environments
+     - [x] Python Package
+     - [x] FastAPI
+     - [x] Flask
  - [ ] JavaScript
     - [ ] NPM
       - [ ] NodeJS

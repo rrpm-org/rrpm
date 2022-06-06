@@ -11,10 +11,7 @@ WIN_DEFAULT_CONFIG = {
         "display_output": False,
         "ignore_extension_load_error": False,
     },
-    "extensions": {
-        "presets": [],
-        "hooks": []
-    },
+    "extensions": {"presets": [], "hooks": []},
 }
 
 UNIX_DEFAULT_CONFIG = {
@@ -26,10 +23,7 @@ UNIX_DEFAULT_CONFIG = {
         "display_output": False,
         "ignore_extension_load_error": False,
     },
-    "extensions": {
-        "presets": [],
-        "hooks": []
-    },
+    "extensions": {"presets": [], "hooks": []},
 }
 
 

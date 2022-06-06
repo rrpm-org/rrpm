@@ -21,13 +21,17 @@ def venv(repository, name):
         return
     if shutil.which("virtualenv") is None:
         console.print("[red]virtualenv is not installed![/]")
-        install = questionary.confirm("Install virtualenv? Select No if it is accessible as python -m virtualenv").ask()
+        install = questionary.confirm(
+            "Install virtualenv? Select No if it is accessible as python -m virtualenv"
+        ).ask()
         if install:
             console.print("[green]Installing virtualenv...[/]")
             if config.config["cli"]["dispay_output"]:
                 out = subprocess.run(["pip", "install", "virtualenv"])
             else:
-                out = subprocess.run(["pip", "install", "virtualenv"], capture_output=True)
+                out = subprocess.run(
+                    ["pip", "install", "virtualenv"], capture_output=True
+                )
             if out.returncode == 0:
                 console.print("[green]virtualenv installed succesfully![/]")
             else:
@@ -37,11 +41,23 @@ def venv(repository, name):
         os.mkdir(os.path.join(home, repository))
 
     if config.config["cli"]["display_output"]:
-        subprocess.run(["python", "-m", "virtualenv", os.path.join(get_home_dir(), repository, name)])
+        subprocess.run(
+            [
+                "python",
+                "-m",
+                "virtualenv",
+                os.path.join(get_home_dir(), repository, name),
+            ]
+        )
     else:
         subprocess.run(
-            ["python", "-m", "virtualenv", os.path.join(get_home_dir(), repository, name)],
-            capture_output=True
+            [
+                "python",
+                "-m",
+                "virtualenv",
+                os.path.join(get_home_dir(), repository, name),
+            ],
+            capture_output=True,
         )
 
     deps = (
@@ -74,15 +90,15 @@ def venv(repository, name):
         progress.update(create_task, advance=10)
         time.sleep(1)
         with open(
-                os.path.join(home, repository, name, "src", name, "__init__.py"),
-                "w",
+            os.path.join(home, repository, name, "src", name, "__init__.py"),
+            "w",
         ) as f:
             f.write("")
         progress.update(create_task, advance=10)
         time.sleep(1)
         with open(
-                os.path.join(home, repository, name, "src", name, f"{name}.py"),
-                "w",
+            os.path.join(home, repository, name, "src", name, f"{name}.py"),
+            "w",
         ) as f:
             f.write("")
         progress.update(create_task, advance=10)
@@ -96,15 +112,15 @@ def venv(repository, name):
         progress.update(create_task, advance=10)
         time.sleep(1)
         with open(
-                os.path.join(home, repository, name, "tests", "__init__.py"),
-                "w",
+            os.path.join(home, repository, name, "tests", "__init__.py"),
+            "w",
         ) as f:
             f.write("")
         progress.update(create_task, advance=10)
         time.sleep(1)
         with open(
-                os.path.join(home, repository, name, "tests", f"test_{name}.py"),
-                "w",
+            os.path.join(home, repository, name, "tests", f"test_{name}.py"),
+            "w",
         ) as f:
             f.write("")
         progress.update(create_task, advance=10)

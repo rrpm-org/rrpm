@@ -143,7 +143,16 @@ def create(name: str, src: bool = False):
     base_choices = ["Python", "FastAPI", "Flask", "NodeJS", "React", "NextJS"]
     for ext in config.config["cli"]["extensions"]:
         try:
-            ext_ = load_extension(os.path.expandvars(os.path.expanduser(config.config["root"]["ext_dir"])), ext).Preset().name
+            ext_ = (
+                load_extension(
+                    os.path.expandvars(
+                        os.path.expanduser(config.config["root"]["ext_dir"])
+                    ),
+                    ext,
+                )
+                .Preset()
+                .name
+            )
             exts.append({ext_: load_extension(config.config["root"]["ext_dir"], ext)})
             base_choices += [ext_]
         except Exception:
@@ -153,12 +162,16 @@ def create(name: str, src: bool = False):
                 else:
                     console.print(f"[red]Failed to load extension {ext}[/]")
                     console.print_exception()
-                    console.print(f"[red]To disable exitting the program, consider adding ignore_extension_load_error = true to your config file.[/]")
+                    console.print(
+                        f"[red]To disable exitting the program, consider adding ignore_extension_load_error = true to your config file.[/]"
+                    )
                     return
             except KeyError:
                 console.print(f"[red]Failed to load extension {ext}[/]")
                 console.print_exception()
-                console.print(f"[red]To disable exitting the program, consider adding ignore_extension_load_error = true to your config file.[/]")
+                console.print(
+                    f"[red]To disable exitting the program, consider adding ignore_extension_load_error = true to your config file.[/]"
+                )
                 return
     prj_type = questionary.select(
         "Project Preset",
@@ -249,7 +262,9 @@ def create(name: str, src: bool = False):
                 try:
                     ext[prj_type].Preset().on_select(repository, name)
                 except Exception:
-                    console.print(f"[red]Exception occured in extension: {ext[prj_type].__file__}[/]")
+                    console.print(
+                        f"[red]Exception occured in extension: {ext[prj_type].__file__}[/]"
+                    )
                     console.print_exception()
                     return
                 break

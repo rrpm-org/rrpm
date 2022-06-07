@@ -11,11 +11,11 @@ home = get_home_dir()
 
 def npm(repository: str, name: str):
     if os.path.exists(os.path.join(home, repository, name)):
-        console.print(f"[red]Project already exists![/]")
+        console.print("[red]Project already exists![/]")
         return
     os.mkdir(os.path.join(home, repository, name))
     console.print(
-        f"[green]Creating project with create-next-app, JavaScript and NPM[/]"
+        "[green]Creating project with create-next-app, JavaScript and NPM[/]"
     )
     if config.config["cli"]["display_output"]:
         subprocess.run(
@@ -33,11 +33,11 @@ def npm(repository: str, name: str):
 
 def yarn(repository: str, name: str):
     if os.path.exists(os.path.join(home, repository, name)):
-        console.print(f"[red]Project already exists![/]")
+        console.print("[red]Project already exists![/]")
         return
     os.mkdir(os.path.join(home, repository, name))
     console.print(
-        f"[green]Creating project with create-next-app, JavaScript and Yarn[/]"
+        "[green]Creating project with create-next-app, JavaScript and Yarn[/]"
     )
     if config.config["cli"]["display_output"]:
         subprocess.run(
@@ -55,11 +55,11 @@ def yarn(repository: str, name: str):
 
 def pnpm(repository: str, name: str):
     if os.path.exists(os.path.join(home, repository, name)):
-        console.print(f"[red]Project already exists![/]")
+        console.print("[red]Project already exists![/]")
         return
     os.mkdir(os.path.join(home, repository, name))
     console.print(
-        f"[green]Creating project with create-next-app, JavaScript and Pnpm[/]"
+        "[green]Creating project with create-next-app, JavaScript and Pnpm[/]"
     )
     if config.config["cli"]["display_output"]:
         subprocess.run(

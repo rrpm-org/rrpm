@@ -11,7 +11,7 @@ def default_questions():
     pkg_man = questionary.select(
         "Select Package Manager", choices=["NPM", "Yarn", "Pnpm"]
     ).ask()
-    if shutil.which(pkg_man) is None:
+    if shutil.which(pkg_man.lower()) is None:
         console.print(f"[red]Package manager {pkg_man} not found![/]")
         sys.exit(1)
     return lang, pkg_man

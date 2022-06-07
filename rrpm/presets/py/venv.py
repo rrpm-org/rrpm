@@ -17,7 +17,7 @@ home = get_home_dir()
 
 def venv(repository, name):
     if os.path.exists(os.path.join(home, repository, name)):
-        console.print(f"[red]Project already exists![/]")
+        console.print("[red]Project already exists![/]")
         return
     if shutil.which("virtualenv") is None:
         console.print("[red]virtualenv is not installed![/]")
@@ -125,7 +125,7 @@ def venv(repository, name):
             f.write("")
         progress.update(create_task, advance=10)
         time.sleep(1)
-        progress.console.print(f"[green]Files created successfully![/]")
+        progress.console.print("[green]Files created successfully![/]")
         for dep in deps:
             out = subprocess.run(["pip", "install", dep], capture_output=True)
             if out.returncode != 0:
@@ -164,7 +164,7 @@ def venv(repository, name):
         progress.console.print("[green]Writing pyproject.toml[/]")
         with open(os.path.join(home, repository, name, "pyproject.toml"), "w") as f:
             f.write(
-                f"[build-system]\n"
+                "[build-system]\n"
                 f"requires = ['setuptools>=42']\n"
                 f"build-backend = 'setuptools.build_meta'\n"
             )
@@ -178,7 +178,7 @@ def venv(repository, name):
             capture_output=True,
         )
         if out.returncode != 0:
-            progress.console.print(f"[red]Failed to initialize git repo![/]")
+            progress.console.print("[red]Failed to initialize git repo![/]")
         else:
             progress.console.print("[green]Git repo initialized successfully![/]")
             progress.update(write_task, advance=1)
@@ -203,7 +203,7 @@ def venv(repository, name):
                 )
                 if out.returncode != 0:
                     progress.console.print(
-                        f"[red]Failed to commit files to git repo![/]"
+                        "[red]Failed to commit files to git repo![/]"
                     )
                 else:
                     progress.console.print(

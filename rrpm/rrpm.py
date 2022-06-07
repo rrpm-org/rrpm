@@ -63,7 +63,7 @@ def get(url: str):
             return
         if not os.path.exists(user_dir):
             os.mkdir(user_dir)
-            console.print(f"[green]Fetching GitHub Repository[/]")
+            console.print("[green]Fetching GitHub Repository[/]")
             if config.config["cli"]["display_output"] is True:
                 out = subprocess.run(["git", "clone", url, repo_dir])
             else:
@@ -79,7 +79,7 @@ def get(url: str):
                     f"[red]Failed to clone with exit status {out.returncode}[/]"
                 )
         else:
-            console.print(f"[green]Fetching GitHub Repository[/]")
+            console.print("[green]Fetching GitHub Repository[/]")
             if config.config["cli"]["display_output"] is True:
                 out = subprocess.run(["git", "clone", url, repo_dir])
             else:
@@ -106,7 +106,7 @@ def get(url: str):
         if out.returncode == 0:
             console.print(f"[green]Successfully cloned repository in {domain}[/]")
         elif out.returncode == 128:
-            console.print(f"[red]Repository already exists[/]")
+            console.print("[red]Repository already exists[/]")
         else:
             console.print(f"[red]Failed to clone with exit status {out.returncode}[/]")
     for ext in config.config["extensions"]["hooks"]:
@@ -172,14 +172,14 @@ def create(name: str, src: bool = False):
                     console.print(f"[red]Failed to load extension {ext}[/]")
                     console.print_exception()
                     console.print(
-                        f"[red]To disable exitting the program, consider adding ignore_extension_load_error = true to your config file.[/]"
+                        "[red]To disable exitting the program, consider adding ignore_extension_load_error = true to your config file.[/]"
                     )
                     return
             except KeyError:
                 console.print(f"[red]Failed to load extension {ext}[/]")
                 console.print_exception()
                 console.print(
-                    f"[red]To disable exitting the program, consider adding ignore_extension_load_error = true to your config file.[/]"
+                    "[red]To disable exitting the program, consider adding ignore_extension_load_error = true to your config file.[/]"
                 )
                 return
     prj_type = questionary.select(
@@ -196,7 +196,7 @@ def create(name: str, src: bool = False):
     if repository == "Other":
         repository = questionary.text("Enter Domain(without 'https://'): ").ask()
         if DOMAIN_REGEX.match(repository) is None:
-            console.print(f"[red]Invalid repository![/]")
+            console.print("[red]Invalid repository![/]")
             return
         os.mkdir(os.path.join(home, repository))
     if repository == "github.com":

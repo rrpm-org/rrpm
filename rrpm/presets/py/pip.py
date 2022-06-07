@@ -15,15 +15,15 @@ console = Console()
 def pip(repository: str, name: str):
     home = get_home_dir()
     if shutil.which("pip") is None:
-        console.print(f"[red]Pip not found![/]")
+        console.print("[red]Pip not found![/]")
         return
-    console.print(f"[green]Creating project with Pip[/]")
+    console.print("[green]Creating project with Pip[/]")
     if not os.path.exists(home):
         os.mkdir(home)
 
     os.chdir(home)
     if os.path.exists(os.path.join(home, repository, name)):
-        console.print(f"[red]Project already exists![/]")
+        console.print("[red]Project already exists![/]")
         return
     os.chdir(os.path.join(home, repository))
     deps = (
@@ -92,7 +92,7 @@ def pip(repository: str, name: str):
             f.write("")
         progress.update(create_task, advance=10)
         time.sleep(1)
-        progress.console.print(f"[green]Files created successfully![/]")
+        progress.console.print("[green]Files created successfully![/]")
         for dep in deps:
             out = subprocess.run(["pip", "install", dep], capture_output=True)
             if out.returncode != 0:
@@ -131,7 +131,7 @@ classifiers=[]
         progress.console.print("[green]Writing pyproject.toml[/]")
         with open(os.path.join(home, repository, name, "pyproject.toml"), "w") as f:
             f.write(
-                f"[build-system]\n"
+                "[build-system]\n"
                 f"requires = ['setuptools>=42']\n"
                 f"build-backend = 'setuptools.build_meta'\n"
             )
@@ -145,7 +145,7 @@ classifiers=[]
             capture_output=True,
         )
         if out.returncode != 0:
-            progress.console.print(f"[red]Failed to initialize git repo![/]")
+            progress.console.print("[red]Failed to initialize git repo![/]")
         else:
             progress.console.print("[green]Git repo initialized successfully![/]")
             progress.update(write_task, advance=1)
@@ -170,7 +170,7 @@ classifiers=[]
                 )
                 if out.returncode != 0:
                     progress.console.print(
-                        f"[red]Failed to commit files to git repo![/]"
+                        "[red]Failed to commit files to git repo![/]"
                     )
                 else:
                     progress.console.print(

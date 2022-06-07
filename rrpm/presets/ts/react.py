@@ -15,7 +15,7 @@ home = get_home_dir()
 def npm(repository: str, name: str):
     bundler = questionary.select("Bundler", choices=["Vite", "create-react-app"]).ask()
     if os.path.exists(os.path.join(home, repository, name)):
-        console.print(f"[red]Project already exists![/]")
+        console.print("[red]Project already exists![/]")
         sys.exit(1)
     if bundler == "Vite":
         os.chdir(os.path.join(get_home_dir(), repository))
@@ -35,7 +35,7 @@ def npm(repository: str, name: str):
     else:
         os.chdir(os.path.join(home, repository))
         console.print(
-            f"[green]Creating project with create-react-app, TypeScript and NPM[/]"
+            "[green]Creating project with create-react-app, TypeScript and NPM[/]"
         )
         if config.config["cli"]["display_output"]:
             subprocess.run(
@@ -54,7 +54,7 @@ def npm(repository: str, name: str):
 def yarn(repository: str, name: str):
     bundler = questionary.select("Bundler", choices=["Vite", "create-react-app"]).ask()
     if os.path.exists(os.path.join(home, repository, name)):
-        console.print(f"[red]Project already exists![/]")
+        console.print("[red]Project already exists![/]")
         sys.exit(1)
     if bundler == "Vite":
         os.chdir(os.path.join(home, repository))
@@ -73,7 +73,7 @@ def yarn(repository: str, name: str):
     else:
         os.chdir(os.path.join(home, repository))
         console.print(
-            f"[green]Creating project with create-react-app, TypeScript and Yarn[/]"
+            "[green]Creating project with create-react-app, TypeScript and Yarn[/]"
         )
         if config.config["cli"]["display_output"]:
             subprocess.run(
@@ -94,7 +94,7 @@ def yarn(repository: str, name: str):
 def pnpm(repository: str, name: str):
     bundler = questionary.select("Bundler", choices=["Vite"]).ask()
     if os.path.exists(os.path.join(home, repository, name)):
-        console.print(f"[red]Project already exists![/]")
+        console.print("[red]Project already exists![/]")
         sys.exit(1)
     if bundler == "Vite":
         os.chdir(os.path.join(home, repository))
@@ -115,7 +115,7 @@ def pnpm(repository: str, name: str):
             console.print("[red]Pnpx is not installed![/]")
         os.chdir(os.path.join(home, repository))
         console.print(
-            f"[green]Creating project with create-react-app, JavaScript and Pnpm[/]"
+            "[green]Creating project with create-react-app, JavaScript and Pnpm[/]"
         )
         if config.config["cli"]["display_output"]:
             subprocess.run(

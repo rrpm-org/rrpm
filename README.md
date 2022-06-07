@@ -18,6 +18,9 @@
     <a href="https://github.com/pybash1/rrpm/graphs/contributors" target="_blank">
         <img src="https://img.shields.io/github/contributors-anon/pybash1/rrpm.svg" alt="GitHub contributors">
     </a>
+    <a href="https://deepsource.io/gh/pybash1/rrpm/?ref=repository-badge}" target="_blank">
+        <img alt="DeepSource" title="DeepSource" src="https://deepsource.io/gh/pybash1/rrpm.svg/?label=active+issues&show_trend=true&token=_k1sn_T4cTyMd4S06NXVXbJX"/>
+    </a>
 </p>
 <br/>
 

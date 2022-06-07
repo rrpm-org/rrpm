@@ -31,7 +31,6 @@ def npm(repository: str, name: str):
                 shell=True,
                 capture_output=True,
             )
-        return
     else:
         os.chdir(os.path.join(home, repository))
         console.print(
@@ -48,7 +47,6 @@ def npm(repository: str, name: str):
                 shell=True,
                 capture_output=True,
             )
-        return
 
 
 def yarn(repository: str, name: str):
@@ -69,7 +67,6 @@ def yarn(repository: str, name: str):
                 shell=True,
                 capture_output=True,
             )
-        return
     else:
         os.chdir(os.path.join(home, repository))
         console.print(
@@ -82,13 +79,10 @@ def yarn(repository: str, name: str):
             )
         else:
             subprocess.run(
-                ["yarn", "create", "react-app", name],
-                "--template",
-                "typescript",
+                ["yarn", "create", "react-app", name, "--template", "typescript"],
                 shell=True,
                 capture_output=True,
             )
-        return
 
 
 def pnpm(repository: str, name: str):

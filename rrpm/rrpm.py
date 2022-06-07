@@ -51,9 +51,7 @@ def get(url: str):
                 ext,
             ).pre_fetch(url)
         except Exception:
-            console.print(
-                f"[red]Exception occured in extension: {ext}[/]"
-            )
+            console.print(f"[red]Exception occured in extension: {ext}[/]")
             console.print_exception()
             return
     if is_github_url(url):
@@ -120,9 +118,7 @@ def get(url: str):
                 ext,
             ).post_fetch(url)
         except Exception:
-            console.print(
-                f"[red]Exception occured in extension: {ext}[/]"
-            )
+            console.print(f"[red]Exception occured in extension: {ext}[/]")
             console.print_exception()
             return
 

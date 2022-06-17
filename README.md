@@ -81,40 +81,40 @@ RRPM requires Python >=3.7
      - [x] Python Package
      - [x] FastAPI
      - [x] Flask
- - [ ] JavaScript
-    - [ ] NPM
-      - [ ] NodeJS
+ - [x] JavaScript
+    - [x] NPM
+      - [x] NodeJS
       - [x] ReactJS
         - [x] create-react-app
         - [x] Vite
       - [x] NextJS
-    - [ ] Yarn
-      - [ ] NodeJS
+    - [x] Yarn
+      - [x] NodeJS
       - [x] ReactJS
         - [x] create-react-app
         - [x] Vite
       - [x] NextJS
-    - [ ] Pnpm
-      - [ ] NodeJS
+    - [x] Pnpm
+      - [x] NodeJS
       - [x] ReactJS
         - [x] create-react-app
         - [x] Vite
       - [x] NextJS
  - [ ] TypeScript
-     - [ ] NPM
-       - [ ] NodeJS
+     - [x] NPM
+       - [x] NodeJS
        - [x] ReactJS
          - [x] create-react-app
          - [x] Vite
        - [x] NextJS
-     - [ ] Yarn
-       - [ ] NodeJS
+     - [x] Yarn
+       - [x] NodeJS
        - [x] ReactJS
          - [x] create-react-app
          - [x] Vite
        - [x] NextJS
-     - [ ] Pnpm
-       - [ ] NodeJS
+     - [x] Pnpm
+       - [x] NodeJS
        - [x] ReactJS
          - [x] create-react-app
          - [x] Vite

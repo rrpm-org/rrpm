@@ -238,11 +238,11 @@ def create(name: str, src: bool = False):
                     njtpnpm(repository, name)
             elif prj_type == "NodeJS":
                 if pkg == "NPM":
-                    ntnpm()
+                    ntnpm(repository, name)
                 elif pkg == "Yarn":
-                    ntyarn()
+                    ntyarn(repository, name)
                 else:
-                    ntpnpm()
+                    ntpnpm(repository, name)
         else:
             if prj_type == "React":
                 if pkg == "NPM":
@@ -260,11 +260,11 @@ def create(name: str, src: bool = False):
                     njjpnpm(repository, name)
             elif prj_type == "NodeJS":
                 if pkg == "NPM":
-                    njnpm()
+                    njnpm(repository, name)
                 elif pkg == "Yarn":
-                    njyarn()
+                    njyarn(repository, name)
                 else:
-                    njpnpm()
+                    njpnpm(repository, name)
     else:
         for ext in exts:
             if ext.get(prj_type) is not None:

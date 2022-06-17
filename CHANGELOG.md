@@ -1,7 +1,9 @@
-## Unreleased
+## v1.3.0 (2022-06-17)
 
 ### Feat
 
+- **node**: ts support for node projects
+- **node**: now allows project generation of nodejs
 - **extensions**: include rrpmpkg as a dependency
 - Virtual Environment support
 - Pnpm create-react-app support

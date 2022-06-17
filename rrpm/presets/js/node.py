@@ -1,6 +1,5 @@
 import os
 import subprocess
-import questionary
 from rich.console import Console
 from .. import get_home_dir
 from .. import Config

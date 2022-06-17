@@ -1,15 +1,13 @@
-from rich.console import Console
-
-console = Console()
+import questionary
 
 
-def npm():
-    console.print("[red]Work in Progress![/]")
+def npm(repository: str, name: str):
+    print("NPM")
 
 
-def yarn():
-    console.print("[red]Work in Progress![/]")
+def yarn(repository: str, name: str):
+    print("Yarn")
 
 
-def pnpm():
-    console.print("[red]Work in Progress![/]")
+def pnpm(repository: str, name: str):
+    print("Pnpm")

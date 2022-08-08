@@ -71,6 +71,10 @@ class Config:
             else:
                 toml.dump(UNIX_DEFAULT_CONFIG, f)
 
+    def generate(self, new_config):
+        with open(os.path.join(self.base_path, "config.toml"), "w") as f:
+            toml.dump(new_config, f)
+
     @property
     def config_path(self):
         return os.path.join(self.base_path, "config.toml")

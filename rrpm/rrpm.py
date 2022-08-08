@@ -3,6 +3,7 @@ import os
 import re
 import shutil
 import subprocess
+import sys
 
 import questionary
 from typer import Typer
@@ -143,8 +144,10 @@ def remove(shorthand: str):
             for user in os.listdir(os.path.join(home_dir, domain)):
                 if os.path.isdir(os.path.join(home_dir, domain, user)):
                     for repo in os.listdir(os.path.join(home_dir, domain, user)):
-                        if repo == shorthand.split("/")[1] and os.path.isdir(os.path.join(home_dir, domain, user, repo)):
-                            matches.append(domain+"/"+user+"/"+repo)
+                        if repo == shorthand.split("/")[1] and os.path.isdir(
+                            os.path.join(home_dir, domain, user, repo)
+                        ):
+                            matches.append(domain + "/" + user + "/" + repo)
 
     if matches != []:
         repo = questionary.select("Select Repository", choices=matches).ask()
@@ -161,8 +164,8 @@ def remove(shorthand: str):
         console.print("[red]No matching repositories found![/]")
 
 
-@cli.command(name="list", help="List all cloned repositories and generated projects")
-def list_():
+@cli.command(name="tree", help="List all cloned repositories and generated projects")
+def tree():
     home_dir = get_home_dir()
     if os.path.exists(home_dir):
         console.print(f"[red]{home_dir}[/]")
@@ -333,7 +336,44 @@ def create(name: str, src: bool = False):
 
 
 @cli.command(name="config", help="View current config file or regenerate config file")
-def view_config(regenerate: bool = False):
+def view_config(regenerate: bool = False, generate: bool = False):
+    if generate is True:
+        if sys.platform.lower().startswith("win"):
+            CONFIG = {
+                "root": {
+                    "dir": "%USERPROFILE%\\Projects",
+                    "ext_dir": "%LOCALAPPDATA%\\rrpm\\extensions",
+                },
+                "cli": {
+                    "display_output": False,
+                    "ignore_extension_load_error": False,
+                },
+                "extensions": {"presets": [], "hooks": []},
+            }
+        else:
+            CONFIG = {
+                "root": {
+                    "dir": "~/Projects",
+                    "exts_dir": "~/.config/rrpm/extensions",
+                },
+                "cli": {
+                    "display_output": False,
+                    "ignore_extension_load_error": False,
+                },
+                "extensions": {"presets": [], "hooks": []},
+            }
+        root_dir = questionary.path("Root Project Directory", CONFIG["root"]["dir"]).ask()
+        ext_dir = questionary.path("Extensions Directory", CONFIG["root"]["ext_dir"]).ask()
+        output = questionary.confirm("Display raw git command output", CONFIG["cli"]["display_output"]).ask()
+        ignore_error = questionary.confirm("Ignore extension load errors", CONFIG["cli"]["ignore_extension_load_error"]).ask()
+        CONFIG["root"]["dir"] = os.path.realpath(os.path.expandvars(os.path.expanduser(root_dir)))
+        CONFIG["root"]["ext_dir"] = os.path.realpath(os.path.expandvars(os.path.expanduser(ext_dir)))
+        CONFIG["cli"]["display_output"] = output
+        CONFIG["cli"]["ignore_extension_load_error"] = ignore_error
+        config.generate(CONFIG)
+        console.print("[green]Successfully saved new config![/]")
+        return
+
     if regenerate is True:
         config.regenerate()
         console.print("[green]Config file regenerated successfully![/]")

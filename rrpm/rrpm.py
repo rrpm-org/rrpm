@@ -1,10 +1,13 @@
+import json
 import os
 import re
+import shutil
 import subprocess
 
 import questionary
 from typer import Typer
 from rich.console import Console
+from rich.markdown import Markdown
 
 from .presets.py import default_questions as py_q
 from .presets.py.poetry import poetry
@@ -17,7 +20,7 @@ from .presets.js.nextjs import npm as njjnpm, yarn as njjyarn, pnpm as njjpnpm
 from .presets.ts.nextjs import npm as njtnpm, yarn as njtyarn, pnpm as njtpnpm
 from .presets.js.node import npm as njnpm, yarn as njyarn, pnpm as njpnpm
 from .presets.ts.node import npm as ntnpm, yarn as ntyarn, pnpm as ntpnpm
-from .utils import get_home_dir, get_domain, is_github_url, get_github_user_repo
+from .utils import get_home_dir, get_domain, get_user_repo, is_domain, is_shorthand
 from .ext.loader import load_extension
 from .config import Config
 
@@ -30,11 +33,22 @@ DOMAIN_REGEX = re.compile(r"([a-zA-Z0-9_-]+\.)?(.*)\.([a-zA-Z]+)")
 
 @cli.command(help="Clone a remote repository to directory specified in config")
 def get(url: str):
-    if not url.startswith("http://") and not url.startswith("https://"):
-        url = "https://" + url
+    if not is_domain(url) and not is_shorthand(url):
+        console.print("[red]Invalid domain or shorthand![/]")
+        return
+
+    if is_domain(url):
+        if not url.startswith("http://") and not url.startswith("https://"):
+            url = "https://" + url
 
     home_dir = get_home_dir()
-    domain = get_domain(url)
+    try:
+        domain = get_domain(url)
+    except IndexError:
+        pass
+
+    if is_shorthand(url):
+        domain = "github.com"
 
     if not os.path.exists(home_dir):
         os.mkdir(home_dir)
@@ -54,61 +68,47 @@ def get(url: str):
             console.print(f"[red]Exception occured in extension: {ext}[/]")
             console.print_exception()
             return
-    if is_github_url(url):
-        username, reponame = get_github_user_repo(url)
-        user_dir = os.path.join(home_dir, "github.com", username)
-        repo_dir = os.path.join(home_dir, "github.com", username, reponame)
-        if os.path.exists(repo_dir):
-            console.print("[red]Repo already exists[/]")
-            return
-        if not os.path.exists(user_dir):
-            os.mkdir(user_dir)
-            console.print("[green]Fetching GitHub Repository[/]")
-            if config.config["cli"]["display_output"] is True:
-                out = subprocess.run(["git", "clone", url, repo_dir])
-            else:
-                out = subprocess.run(
-                    ["git", "clone", url, repo_dir], capture_output=True
-                )
+    if is_shorthand(url):
+        url = "https://github.com/" + url
+
+    try:
+        user, repo = get_user_repo(url)
+    except IndexError:
+        console.print("[red]Cannot determine user/repository from given URL![/]")
+        return
+
+    user_dir = os.path.join(home_dir, domain, user)
+    repo_dir = os.path.join(home_dir, domain, user, repo)
+
+    if not os.path.exists(user_dir):
+        os.mkdir(user_dir)
+
+    if os.path.exists(repo_dir):
+        console.print("[yellow]Repository is already cloned![/]")
+        pull = questionary.confirm("Pull new commits instead?").ask()
+        if pull:
+            os.chdir(repo_dir)
+            out = subprocess.run(["git", "pull"], capture_output=True, shell=True)
             if out.returncode == 0:
-                console.print(
-                    f"[green]Successfully cloned repository in github.com/{username}/{reponame}[/]"
-                )
+                console.print("[green]Successfully pulled new commits![/]")
+                return
             else:
                 console.print(
-                    f"[red]Failed to clone with exit status {out.returncode}[/]"
+                    f"[red]Failed to pull updates with exit status {out.returncode}![/]"
                 )
-        else:
-            console.print("[green]Fetching GitHub Repository[/]")
-            if config.config["cli"]["display_output"] is True:
-                out = subprocess.run(["git", "clone", url, repo_dir])
-            else:
-                out = subprocess.run(
-                    ["git", "clone", url, repo_dir], capture_output=True
-                )
-            if out.returncode == 0:
-                console.print(
-                    f"[green]Successfully cloned repository in github.com/{username}/{reponame}[/]"
-                )
-            else:
-                console.print(
-                    f"[red]Failed to clone with exit status {out.returncode}[/]"
-                )
+                return
+
+    console.print(f"[green]Fetching repository from {url}[/]")
+    out = subprocess.run(
+        ["git", "clone", url, repo_dir], capture_output=True, shell=True
+    )
+    if out.returncode == 0:
+        console.print(
+            f"[green]Successfully cloned repository in github.com/{user}/{repo}[/]"
+        )
     else:
-        console.print(f"[green]Fetching {domain}[/]")
-        if config.config["cli"]["display_output"] is True:
-            out = subprocess.run(["git", "clone", url, os.path.join(home_dir, domain)])
-        else:
-            out = subprocess.run(
-                ["git", "clone", url, os.path.join(home_dir, domain)],
-                capture_output=True,
-            )
-        if out.returncode == 0:
-            console.print(f"[green]Successfully cloned repository in {domain}[/]")
-        elif out.returncode == 128:
-            console.print("[red]Repository already exists[/]")
-        else:
-            console.print(f"[red]Failed to clone with exit status {out.returncode}[/]")
+        console.print(f"[red]Failed to clone with exit status {out.returncode}[/]")
+
     for ext in config.config["extensions"]["hooks"]:
         try:
             load_extension(
@@ -121,6 +121,44 @@ def get(url: str):
             console.print(f"[red]Exception occured in extension: {ext}[/]")
             console.print_exception()
             return
+
+
+@cli.command(name="remove", help="Remove a cloned repository")
+def remove(shorthand: str):
+    if not is_shorthand(shorthand):
+        console.print("[red]Invalid shorthand![/]")
+        return
+
+    home_dir = get_home_dir()
+
+    if not os.path.exists(home_dir):
+        os.mkdir(home_dir)
+        console.print("[red]Repository does not exist![/]")
+        return
+
+    matches = []
+
+    for domain in os.listdir(home_dir):
+        if os.path.isdir(os.path.join(home_dir, domain)):
+            for user in os.listdir(os.path.join(home_dir, domain)):
+                if os.path.isdir(os.path.join(home_dir, domain, user)):
+                    for repo in os.listdir(os.path.join(home_dir, domain, user)):
+                        if repo == shorthand.split("/")[1] and os.path.isdir(os.path.join(home_dir, domain, user, repo)):
+                            matches.append(domain+"/"+user+"/"+repo)
+
+    if matches != []:
+        repo = questionary.select("Select Repository", choices=matches).ask()
+        console.print(f"[yellow]Removing repository: '{repo}'[/]")
+        try:
+            shutil.rmtree(os.path.realpath(os.path.join(home_dir, repo)))
+        except PermissionError as e:
+            console.print("[red]Failed to remove repository: '{repo}'[/]")
+            file = str(e).split("'")
+            console.print(f"[red]Access denied to file: {file[1]}[/]")
+            return
+        console.print(f"[green]Successfully removed repository: '{repo}'[/]")
+    else:
+        console.print("[red]No matching repositories found![/]")
 
 
 @cli.command(name="list", help="List all cloned repositories and generated projects")
@@ -221,6 +259,21 @@ def create(name: str, src: bool = False):
             console.print("[red]Invalid package manager selected[/]")
     elif prj_type in ["NodeJS", "React", "NextJS"]:
         lang, pkg = js_q()
+        if lang == -1:
+            for ext in config.config["extensions"]["hooks"]:
+                try:
+                    load_extension(
+                        os.path.expandvars(
+                            os.path.expanduser(config.config["root"]["ext_dir"])
+                        ),
+                        ext,
+                    ).pkg_fail(pkg)
+                except AttributeError:
+                    pass
+                except Exception:
+                    console.print(f"[red]Exception occurred in extension: {ext}[/]")
+                    console.print_exception()
+                    return
         if lang == "TypeScript":
             if prj_type == "React":
                 if pkg == "NPM":
@@ -285,7 +338,9 @@ def view_config(regenerate: bool = False):
         config.regenerate()
         console.print("[green]Config file regenerated successfully![/]")
     else:
-        console.print(config.config)
+        configstring = json.dumps(config.config, indent=2)
+        md = f"```json\n{configstring}\n```"
+        console.print(Markdown(md))
 
 
 if __name__ == "__main__":

@@ -1,3 +1,4 @@
+from genericpath import isdir
 import json
 import os
 import re
@@ -9,6 +10,7 @@ import questionary
 from typer import Typer
 from rich.console import Console
 from rich.markdown import Markdown
+from rich.table import Table
 
 from .presets.py import default_questions as py_q
 from .presets.py.poetry import poetry
@@ -184,6 +186,26 @@ def tree():
                     else:
                         for repo in os.listdir(os.path.join(home_dir, host)):
                             console.print(f"      |- [green]{repo}[/]")
+
+
+@cli.command(name="list")
+def list_():
+    total = 0
+    table = Table(title="[green]List of Repositories[/]")
+    table.add_column("[red]Site")
+    table.add_column("[green]Repository")
+    table.add_column("[blue]Owner")
+    table.add_column("[magenta]Shorthand")
+    for i in os.listdir(os.path.realpath(get_home_dir())):
+        if os.path.isdir(os.path.realpath(os.path.join(get_home_dir(), i))):
+            for j in os.listdir(os.path.realpath(os.path.join(get_home_dir(), i))):
+                if os.path.isdir(os.path.realpath(os.path.join(get_home_dir(), i, j))):
+                    for k in os.listdir(os.path.realpath(os.path.join(get_home_dir(), i, j))):
+                        if os.path.isdir(os.path.realpath(os.path.join(get_home_dir(), i, j, k))):
+                            table.add_row(f"[red]{i}", f"[green]{k}", f"[blue]{j}", f"[magenta]{j}/{k}[/]")
+                            total += 1
+    console.print(table)
+    console.print(f"[green]Total Repositories: [/][blue]{total}[/]")
 
 
 @cli.command(help="Generate a project from any of the presets and/or its variations")

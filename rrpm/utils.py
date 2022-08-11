@@ -2,6 +2,7 @@ import os
 import sys
 import re
 from typing import Tuple
+from pathlib import Path
 
 from .config import Config
 
@@ -42,3 +43,22 @@ def get_user_repo(url: str) -> Tuple[str, str]:
     ], url.replace("https://", "").replace("http://", "").split("/")[2].replace(
         ".git", ""
     )
+
+
+def recursive_file_search(path: Path):
+    paths = []
+    for i in path.iterdir():
+        if Path(i).is_file():
+            paths.append(str(Path(i)))
+        else:
+            paths += recursive_file_search(Path(i))
+    return paths
+
+
+def get_all_dirs(path: Path):
+    paths = []
+    for i in path.iterdir():
+        if Path(i).is_dir():
+            paths.append(i)
+            paths += get_all_dirs(Path(i))
+    return paths

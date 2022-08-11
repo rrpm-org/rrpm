@@ -1,10 +1,10 @@
-from genericpath import isdir
 import json
 import os
 import re
 import shutil
 import subprocess
 import sys
+from pathlib import Path
 
 import questionary
 from typer import Typer
@@ -23,7 +23,14 @@ from .presets.js.nextjs import npm as njjnpm, yarn as njjyarn, pnpm as njjpnpm
 from .presets.ts.nextjs import npm as njtnpm, yarn as njtyarn, pnpm as njtpnpm
 from .presets.js.node import npm as njnpm, yarn as njyarn, pnpm as njpnpm
 from .presets.ts.node import npm as ntnpm, yarn as ntyarn, pnpm as ntpnpm
-from .utils import get_home_dir, get_domain, get_user_repo, is_domain, is_shorthand
+from .utils import (
+    get_home_dir,
+    get_domain,
+    get_user_repo,
+    is_domain,
+    is_shorthand,
+    get_all_dirs,
+)
 from .ext.loader import load_extension
 from .config import Config
 
@@ -200,12 +207,76 @@ def list_():
         if os.path.isdir(os.path.realpath(os.path.join(get_home_dir(), i))):
             for j in os.listdir(os.path.realpath(os.path.join(get_home_dir(), i))):
                 if os.path.isdir(os.path.realpath(os.path.join(get_home_dir(), i, j))):
-                    for k in os.listdir(os.path.realpath(os.path.join(get_home_dir(), i, j))):
-                        if os.path.isdir(os.path.realpath(os.path.join(get_home_dir(), i, j, k))):
-                            table.add_row(f"[red]{i}", f"[green]{k}", f"[blue]{j}", f"[magenta]{j}/{k}[/]")
+                    for k in os.listdir(
+                        os.path.realpath(os.path.join(get_home_dir(), i, j))
+                    ):
+                        if os.path.isdir(
+                            os.path.realpath(os.path.join(get_home_dir(), i, j, k))
+                        ):
+                            table.add_row(
+                                f"[red]{i}",
+                                f"[green]{k}",
+                                f"[blue]{j}",
+                                f"[magenta]{j}/{k}[/]",
+                            )
                             total += 1
     console.print(table)
     console.print(f"[green]Total Repositories: [/][blue]{total}[/]")
+
+
+@cli.command(
+    name="migrate", help="Migrate and import all repositories from another directory"
+)
+def migrate(path: Path):
+    if not path.exists():
+        console.print(f"[red]Directory: '{path}' doesn't exist![/]")
+        return
+
+    if not path.is_dir():
+        console.print(f"[red]Path: '{path}' is not a directory![/]")
+        return
+
+    console.print(f"Importing projects from '{path}'...")
+    console.print("[red]Warning: All your uncommited changes will be lost!")
+    ignore = questionary.confirm("Continue").ask()
+    if not ignore:
+        return
+    dirs = get_all_dirs(path)
+    repos_filtered = []
+    remotes = []
+    for dir in dirs:
+        if ".git" in str(dir).split("\\"):
+            repo_list = str(dir).split("\\")
+            repo_name = "\\".join(repo_list[: repo_list.index(".git")])
+            if repo_name not in repos_filtered:
+                repos_filtered.append(repo_name)
+                console.print(f"[green]Found Repository in: {repo_name}")
+
+    console.print(f"Total Repositories Found: {len(repos_filtered)}")
+    for repo in repos_filtered:
+        os.chdir(repo)
+        out = subprocess.run(["git", "remote", "-v"], capture_output=True)
+        if not out.stdout:
+            repos_filtered.remove(repo)
+            console.print(
+                f"[red]Ignoring repository: {repo} as no remote is present[/]"
+            )
+        else:
+            remote = out.stdout.decode().split("\n")[0].split("\t")[1].split(" ")[0]
+            remotes.append(remote)
+            repo_name = repo.split("\\")[-1]
+            console.print(f"[green]Using remote: {remote} for repository: {repo_name}")
+
+    for remote in remotes:
+        get(remote)
+        repo_name = repos_filtered[remotes.index(remote)].split("\\")[-1]
+        console.print(f"[red]Deleting project: {repo_name}")
+        try:
+            shutil.rmtree(os.path.realpath(repos_filtered[remotes.index(remote)]))
+        except PermissionError:
+            console.print(
+                f"[red]Warning: Failed to delete repository: {repo_name}: access denied![/]"
+            )
 
 
 @cli.command(help="Generate a project from any of the presets and/or its variations")
@@ -384,12 +455,24 @@ def view_config(regenerate: bool = False, generate: bool = False):
                 },
                 "extensions": {"presets": [], "hooks": []},
             }
-        root_dir = questionary.path("Root Project Directory", CONFIG["root"]["dir"]).ask()
-        ext_dir = questionary.path("Extensions Directory", CONFIG["root"]["ext_dir"]).ask()
-        output = questionary.confirm("Display raw git command output", CONFIG["cli"]["display_output"]).ask()
-        ignore_error = questionary.confirm("Ignore extension load errors", CONFIG["cli"]["ignore_extension_load_error"]).ask()
-        CONFIG["root"]["dir"] = os.path.realpath(os.path.expandvars(os.path.expanduser(root_dir)))
-        CONFIG["root"]["ext_dir"] = os.path.realpath(os.path.expandvars(os.path.expanduser(ext_dir)))
+        root_dir = questionary.path(
+            "Root Project Directory", CONFIG["root"]["dir"]
+        ).ask()
+        ext_dir = questionary.path(
+            "Extensions Directory", CONFIG["root"]["ext_dir"]
+        ).ask()
+        output = questionary.confirm(
+            "Display raw git command output", CONFIG["cli"]["display_output"]
+        ).ask()
+        ignore_error = questionary.confirm(
+            "Ignore extension load errors", CONFIG["cli"]["ignore_extension_load_error"]
+        ).ask()
+        CONFIG["root"]["dir"] = os.path.realpath(
+            os.path.expandvars(os.path.expanduser(root_dir))
+        )
+        CONFIG["root"]["ext_dir"] = os.path.realpath(
+            os.path.expandvars(os.path.expanduser(ext_dir))
+        )
         CONFIG["cli"]["display_output"] = output
         CONFIG["cli"]["ignore_extension_load_error"] = ignore_error
         config.generate(CONFIG)

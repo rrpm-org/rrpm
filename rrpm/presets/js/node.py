@@ -15,9 +15,7 @@ def npm(repository: str, name: str):
         return
     os.mkdir(os.path.join(home, repository, name))
     os.chdir(os.path.join(home, repository, name))
-    console.print(
-        "[green]Creating project with NPM, and JavaScript[/]"
-    )
+    console.print("[green]Creating project with NPM, and JavaScript[/]")
     if config.config["cli"]["display_output"]:
         subprocess.run(
             ["npm", "init"],
@@ -38,9 +36,7 @@ def yarn(repository: str, name: str):
         return
     os.mkdir(os.path.join(home, repository, name))
     os.chdir(os.path.join(home, repository, name))
-    console.print(
-        "[green]Creating project with NPM, and JavaScript[/]"
-    )
+    console.print("[green]Creating project with NPM, and JavaScript[/]")
     if config.config["cli"]["display_output"]:
         subprocess.run(
             ["yarn", "init"],
@@ -61,9 +57,7 @@ def pnpm(repository: str, name: str):
         return
     os.mkdir(os.path.join(home, repository, name))
     os.chdir(os.path.join(home, repository, name))
-    console.print(
-        "[green]Creating project with NPM, and JavaScript[/]"
-    )
+    console.print("[green]Creating project with NPM, and JavaScript[/]")
     if config.config["cli"]["display_output"]:
         subprocess.run(
             ["pnpm", "init"],

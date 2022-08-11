@@ -14,9 +14,7 @@ def npm(repository: str, name: str):
         console.print("[red]Project already exists![/]")
         return
     os.mkdir(os.path.join(home, repository, name))
-    console.print(
-        "[green]Creating project with create-next-app, TypeScript and NPM[/]"
-    )
+    console.print("[green]Creating project with create-next-app, TypeScript and NPM[/]")
     if config.config["cli"]["display_output"]:
         subprocess.run(
             ["npx", "create-next-app@latest", name, "--ts"],

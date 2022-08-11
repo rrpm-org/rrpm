@@ -2,3 +2,4 @@
 poetry.lock
 dist/
 __pycache__/
+.vscode/

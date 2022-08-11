@@ -2,12 +2,17 @@ import os
 import sys
 import re
 from typing import Tuple
+from pathlib import Path
 
 from .config import Config
 
 
 config = Config()
 GH_REGEX = re.compile(r"(https://)?(www\.)?github\.com/[A-Za-z0-9_-]+/?")
+SHORTHAND_REGEX = re.compile(r"^[a-zA-Z-0-9]+\/[a-zA-Z-0-9_\.]+$")
+DOMAIN_REGEX = re.compile(
+    r"^(http:\/\/|https:\/\/)?([a-zA-Z0-9-_]+\.)?([a-zA-Z0-9-_]+\.)([a-zA-Z0-9-_]+)"
+)
 
 
 def get_home_dir():
@@ -16,19 +21,44 @@ def get_home_dir():
     return os.path.realpath(os.path.expanduser(config.config["root"]["dir"]))
 
 
-def get_domain(url: str) -> str:
-    return url.split("/")[2]
-
-
-def is_github_url(url: str) -> bool:
-    if GH_REGEX.match(url) is not None:
+def is_shorthand(url: str) -> bool:
+    if SHORTHAND_REGEX.match(url) is not None:
         return True
     return False
 
 
-def get_github_user_repo(url: str) -> Tuple[str, str]:
+def is_domain(url: str) -> bool:
+    if DOMAIN_REGEX.match(url) is not None:
+        return True
+    return False
+
+
+def get_domain(url: str) -> str:
+    return url.split("/")[2]
+
+
+def get_user_repo(url: str) -> Tuple[str, str]:
     return url.replace("https://", "").replace("http://", "").split("/")[
         1
     ], url.replace("https://", "").replace("http://", "").split("/")[2].replace(
         ".git", ""
     )
+
+
+def recursive_file_search(path: Path):
+    paths = []
+    for i in path.iterdir():
+        if Path(i).is_file():
+            paths.append(str(Path(i)))
+        else:
+            paths += recursive_file_search(Path(i))
+    return paths
+
+
+def get_all_dirs(path: Path):
+    paths = []
+    for i in path.iterdir():
+        if Path(i).is_dir():
+            paths.append(i)
+            paths += get_all_dirs(Path(i))
+    return paths

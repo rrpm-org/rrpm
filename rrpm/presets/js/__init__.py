@@ -13,5 +13,5 @@ def default_questions():
     ).ask()
     if shutil.which(pkg_man.lower()) is None:
         console.print(f"[red]Package manager {pkg_man} not found![/]")
-        sys.exit(1)
+        return -1, pkg_man
     return lang, pkg_man

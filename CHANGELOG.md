@@ -1,3 +1,12 @@
+## v1.4.0 (2022-08-11)
+
+### Feat
+
+- **commands**: added new command to migrate and formatted all files
+- **commands**: new list command and minor improvements
+- **commands**: add new flag to config command and renamed list command to tree
+- **commands**: updated get command and new remove command
+
 ## v1.3.0 (2022-06-17)
 
 ### Feat

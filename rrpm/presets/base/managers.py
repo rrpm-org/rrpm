@@ -174,7 +174,25 @@ class NPM(PackageManager):
             elif preset == "astro":
                 console.log("[red]Astro with TypeScript is not availble![/]")
             elif preset == "svelte":
-                pass
+                if os.path.exists(os.path.join(home, repo, name)):
+                    console.print("[red]Project already exists![/]")
+                    return
+                os.mkdir(os.path.join(home, repo, name))
+                console.print(
+                    "[green]Creating project with Svelte, JavaScript and NPM[/]"
+                )
+                if config.config["cli"]["display_output"]:
+                    subprocess.run(
+                        ["npm", "create", "vite@latest", name, "--", "--temaplte", "svelte-ts"],
+                        shell=True,
+                    )
+                else:
+                    subprocess.run(
+                        ["npm", "create", "vite@latest", name, "--", "--temaplte", "svelte-ts"],
+                        shell=True,
+                        capture_output=True,
+                    )
+                return
             elif preset == "sveltekit":
                 pass
             elif preset == "vue":
@@ -295,7 +313,25 @@ class NPM(PackageManager):
                     )
                 return
             elif preset == "svelte":
-                pass
+                if os.path.exists(os.path.join(home, repo, name)):
+                    console.print("[red]Project already exists![/]")
+                    return
+                os.mkdir(os.path.join(home, repo, name))
+                console.print(
+                    "[green]Creating project with Svelte, JavaScript and NPM[/]"
+                )
+                if config.config["cli"]["display_output"]:
+                    subprocess.run(
+                        ["npm", "create", "vite@latest", name, "--", "--temaplte", "svelte"],
+                        shell=True,
+                    )
+                else:
+                    subprocess.run(
+                        ["npm", "create", "vite@latest", name, "--", "--temaplte", "svelte"],
+                        shell=True,
+                        capture_output=True,
+                    )
+                return
             elif preset == "sveltekit":
                 pass
             elif preset == "vue":
@@ -440,7 +476,25 @@ class Yarn(PackageManager):
             elif preset == "astro":
                 console.log("[red]Astro with TypeScript is not availble![/]")
             elif preset == "svelte":
-                pass
+                if os.path.exists(os.path.join(home, repo, name)):
+                    console.print("[red]Project already exists![/]")
+                    return
+                os.mkdir(os.path.join(home, repo, name))
+                console.print(
+                    "[green]Creating project with Svelte, JavaScript and NPM[/]"
+                )
+                if config.config["cli"]["display_output"]:
+                    subprocess.run(
+                        ["yarn", "create", "vite", name, "--", "--temaplte", "svelte-ts"],
+                        shell=True,
+                    )
+                else:
+                    subprocess.run(
+                        ["yarn", "create", "vite", name, "--", "--temaplte", "svelte-ts"],
+                        shell=True,
+                        capture_output=True,
+                    )
+                return
             elif preset == "sveltekit":
                 pass
             elif preset == "vue":
@@ -545,7 +599,25 @@ class Yarn(PackageManager):
                     )
                 return
             elif preset == "svelte":
-                pass
+                if os.path.exists(os.path.join(home, repo, name)):
+                    console.print("[red]Project already exists![/]")
+                    return
+                os.mkdir(os.path.join(home, repo, name))
+                console.print(
+                    "[green]Creating project with Svelte, JavaScript and NPM[/]"
+                )
+                if config.config["cli"]["display_output"]:
+                    subprocess.run(
+                        ["yarn", "create", "vite", name, "--", "--temaplte", "svelte"],
+                        shell=True,
+                    )
+                else:
+                    subprocess.run(
+                        ["yarn", "create", "vite", name, "--", "--temaplte", "svelte"],
+                        shell=True,
+                        capture_output=True,
+                    )
+                return
             elif preset == "sveltekit":
                 pass
             elif preset == "vue":
@@ -696,7 +768,25 @@ class PNPM(PackageManager):
             elif preset == "astro":
                 console.log("[red]Astro with TypeScript is not availble![/]")
             elif preset == "svelte":
-                pass
+                if os.path.exists(os.path.join(home, repo, name)):
+                    console.print("[red]Project already exists![/]")
+                    return
+                os.mkdir(os.path.join(home, repo, name))
+                console.print(
+                    "[green]Creating project with Svelte, JavaScript and NPM[/]"
+                )
+                if config.config["cli"]["display_output"]:
+                    subprocess.run(
+                        ["pnpm", "create", "vite", name, "--", "--temaplte", "svelte-ts"],
+                        shell=True,
+                    )
+                else:
+                    subprocess.run(
+                        ["pnpm", "create", "vite", name, "--", "--temaplte", "svelte-ts"],
+                        shell=True,
+                        capture_output=True,
+                    )
+                return
             elif preset == "sveltekit":
                 pass
             elif preset == "vue":
@@ -819,7 +909,25 @@ class PNPM(PackageManager):
                     )
                 return
             elif preset == "svelte":
-                pass
+                if os.path.exists(os.path.join(home, repo, name)):
+                    console.print("[red]Project already exists![/]")
+                    return
+                os.mkdir(os.path.join(home, repo, name))
+                console.print(
+                    "[green]Creating project with Svelte, JavaScript and NPM[/]"
+                )
+                if config.config["cli"]["display_output"]:
+                    subprocess.run(
+                        ["pnpm", "create", "vite", name, "--", "--temaplte", "svelte"],
+                        shell=True,
+                    )
+                else:
+                    subprocess.run(
+                        ["pnpm", "create", "vite", name, "--", "--temaplte", "svelte"],
+                        shell=True,
+                        capture_output=True,
+                    )
+                return
             elif preset == "sveltekit":
                 pass
             elif preset == "vue":

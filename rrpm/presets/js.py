@@ -29,3 +29,10 @@ class NextJS(Preset):
 
     def generate(self, pkg: PackageManager):
         pkg.generate(self.repo, self.name, "next", False)
+
+
+class Astro(Preset):
+    package_managers = [NPM, Yarn, PNPM]
+
+    def generate(self, pkg: PackageManager):
+        pkg.generate(self.repo, self.name, "astro", False)

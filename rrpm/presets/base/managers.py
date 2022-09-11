@@ -172,7 +172,7 @@ class NPM(PackageManager):
                         )
                 return
             elif preset == "astro":
-                pass
+                console.log("[red]Astro with TypeScript is not availble![/]")
             elif preset == "svelte":
                 pass
             elif preset == "sveltekit":
@@ -275,7 +275,25 @@ class NPM(PackageManager):
                     )
                 return
             elif preset == "astro":
-                pass
+                if os.path.exists(os.path.join(home, repo, name)):
+                    console.print("[red]Project already exists![/]")
+                    return
+                os.mkdir(os.path.join(home, repo, name))
+                console.print(
+                    "[green]Creating project with Astro, JavaScript and NPM[/]"
+                )
+                if config.config["cli"]["display_output"]:
+                    subprocess.run(
+                        ["npm", "create", "astro@latest", name],
+                        shell=True,
+                    )
+                else:
+                    subprocess.run(
+                        ["npm", "create", "astro@latest", name],
+                        shell=True,
+                        capture_output=True,
+                    )
+                return
             elif preset == "svelte":
                 pass
             elif preset == "sveltekit":
@@ -420,7 +438,7 @@ class Yarn(PackageManager):
                         subprocess.run(["yarn", "global", "add", "ts-node"], shell=True)
                 return
             elif preset == "astro":
-                pass
+                console.log("[red]Astro with TypeScript is not availble![/]")
             elif preset == "svelte":
                 pass
             elif preset == "sveltekit":
@@ -507,7 +525,25 @@ class Yarn(PackageManager):
                     )
                 return
             elif preset == "astro":
-                pass
+                if os.path.exists(os.path.join(home, repo, name)):
+                    console.print("[red]Project already exists![/]")
+                    return
+                os.mkdir(os.path.join(home, repo, name))
+                console.print(
+                    "[green]Creating project with Astro, JavaScript and Yarn[/]"
+                )
+                if config.config["cli"]["display_output"]:
+                    subprocess.run(
+                        ["yarn", "create", "astro", name],
+                        shell=True,
+                    )
+                else:
+                    subprocess.run(
+                        ["yarn", "create", "astro", name],
+                        shell=True,
+                        capture_output=True,
+                    )
+                return
             elif preset == "svelte":
                 pass
             elif preset == "sveltekit":
@@ -658,7 +694,7 @@ class PNPM(PackageManager):
                         )
                 return
             elif preset == "astro":
-                pass
+                console.log("[red]Astro with TypeScript is not availble![/]")
             elif preset == "svelte":
                 pass
             elif preset == "sveltekit":
@@ -763,7 +799,25 @@ class PNPM(PackageManager):
                     )
                 return
             elif preset == "astro":
-                pass
+                if os.path.exists(os.path.join(home, repo, name)):
+                    console.print("[red]Project already exists![/]")
+                    return
+                os.mkdir(os.path.join(home, repo, name))
+                console.print(
+                    "[green]Creating project with Astro, JavaScript and Pnpm[/]"
+                )
+                if config.config["cli"]["display_output"]:
+                    subprocess.run(
+                        ["pnpm", "create", "astro@latest", name],
+                        shell=True,
+                    )
+                else:
+                    subprocess.run(
+                        ["pnpm", "create", "astro@latest", name],
+                        shell=True,
+                        capture_output=True,
+                    )
+                return
             elif preset == "svelte":
                 pass
             elif preset == "sveltekit":

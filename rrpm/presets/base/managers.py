@@ -183,12 +183,28 @@ class NPM(PackageManager):
                 )
                 if config.config["cli"]["display_output"]:
                     subprocess.run(
-                        ["npm", "create", "vite@latest", name, "--", "--temaplte", "svelte-ts"],
+                        [
+                            "npm",
+                            "create",
+                            "vite@latest",
+                            name,
+                            "--",
+                            "--temaplte",
+                            "svelte-ts",
+                        ],
                         shell=True,
                     )
                 else:
                     subprocess.run(
-                        ["npm", "create", "vite@latest", name, "--", "--temaplte", "svelte-ts"],
+                        [
+                            "npm",
+                            "create",
+                            "vite@latest",
+                            name,
+                            "--",
+                            "--temaplte",
+                            "svelte-ts",
+                        ],
                         shell=True,
                         capture_output=True,
                     )
@@ -205,12 +221,28 @@ class NPM(PackageManager):
                 )
                 if config.config["cli"]["display_output"]:
                     subprocess.run(
-                        ["npm", "create", "vite@latest", name, "--", "--template", "vue-ts"],
+                        [
+                            "npm",
+                            "create",
+                            "vite@latest",
+                            name,
+                            "--",
+                            "--template",
+                            "vue-ts",
+                        ],
                         shell=True,
                     )
                 else:
                     subprocess.run(
-                        ["npm", "create", "vite@latest", name, "--", "--template", "vue-ts"],
+                        [
+                            "npm",
+                            "create",
+                            "vite@latest",
+                            name,
+                            "--",
+                            "--template",
+                            "vue-ts",
+                        ],
                         shell=True,
                         capture_output=True,
                     )
@@ -340,12 +372,28 @@ class NPM(PackageManager):
                 )
                 if config.config["cli"]["display_output"]:
                     subprocess.run(
-                        ["npm", "create", "vite@latest", name, "--", "--temaplte", "svelte"],
+                        [
+                            "npm",
+                            "create",
+                            "vite@latest",
+                            name,
+                            "--",
+                            "--temaplte",
+                            "svelte",
+                        ],
                         shell=True,
                     )
                 else:
                     subprocess.run(
-                        ["npm", "create", "vite@latest", name, "--", "--temaplte", "svelte"],
+                        [
+                            "npm",
+                            "create",
+                            "vite@latest",
+                            name,
+                            "--",
+                            "--temaplte",
+                            "svelte",
+                        ],
                         shell=True,
                         capture_output=True,
                     )
@@ -380,12 +428,28 @@ class NPM(PackageManager):
                 )
                 if config.config["cli"]["display_output"]:
                     subprocess.run(
-                        ["npm", "create", "vite@latest", name, "--", "--template", "vue"],
+                        [
+                            "npm",
+                            "create",
+                            "vite@latest",
+                            name,
+                            "--",
+                            "--template",
+                            "vue",
+                        ],
                         shell=True,
                     )
                 else:
                     subprocess.run(
-                        ["npm", "create", "vite@latest", name, "--", "--template", "vue"],
+                        [
+                            "npm",
+                            "create",
+                            "vite@latest",
+                            name,
+                            "--",
+                            "--template",
+                            "vue",
+                        ],
                         shell=True,
                         capture_output=True,
                     )
@@ -539,12 +603,28 @@ class Yarn(PackageManager):
                 )
                 if config.config["cli"]["display_output"]:
                     subprocess.run(
-                        ["yarn", "create", "vite", name, "--", "--temaplte", "svelte-ts"],
+                        [
+                            "yarn",
+                            "create",
+                            "vite",
+                            name,
+                            "--",
+                            "--temaplte",
+                            "svelte-ts",
+                        ],
                         shell=True,
                     )
                 else:
                     subprocess.run(
-                        ["yarn", "create", "vite", name, "--", "--temaplte", "svelte-ts"],
+                        [
+                            "yarn",
+                            "create",
+                            "vite",
+                            name,
+                            "--",
+                            "--temaplte",
+                            "svelte-ts",
+                        ],
                         shell=True,
                         capture_output=True,
                     )
@@ -885,12 +965,28 @@ class PNPM(PackageManager):
                 )
                 if config.config["cli"]["display_output"]:
                     subprocess.run(
-                        ["pnpm", "create", "vite", name, "--", "--temaplte", "svelte-ts"],
+                        [
+                            "pnpm",
+                            "create",
+                            "vite",
+                            name,
+                            "--",
+                            "--temaplte",
+                            "svelte-ts",
+                        ],
                         shell=True,
                     )
                 else:
                     subprocess.run(
-                        ["pnpm", "create", "vite", name, "--", "--temaplte", "svelte-ts"],
+                        [
+                            "pnpm",
+                            "create",
+                            "vite",
+                            name,
+                            "--",
+                            "--temaplte",
+                            "svelte-ts",
+                        ],
                         shell=True,
                         capture_output=True,
                     )

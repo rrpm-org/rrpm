@@ -278,16 +278,12 @@ def create(name: str, src: bool = False):
     base_choices = ["Python", "FastAPI", "Flask", "NodeJS", "React", "NextJS"]
     for ext in config.config["extensions"]["presets"]:
         try:
-            ext_ = (
-                load_extension(
-                    os.path.expandvars(
-                        os.path.expanduser(config.config["root"]["ext_dir"])
-                    ),
-                    ext,
-                )
-                .Preset
-                .name
-            )
+            ext_ = load_extension(
+                os.path.expandvars(
+                    os.path.expanduser(config.config["root"]["ext_dir"])
+                ),
+                ext,
+            ).Preset.name
             exts.append({ext_: load_extension(config.config["root"]["ext_dir"], ext)})
             base_choices += [ext_]
         except Exception:

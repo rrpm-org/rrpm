@@ -12,12 +12,9 @@ from rich.console import Console
 from rich.markdown import Markdown
 from rich.table import Table
 
-from .presets.py import default_questions as py_q
-from .presets.py.poetry import poetry
-from .presets.py.pip import pip
-from .presets.py.venv import venv
+from .presets.py import Vanilla as VanillaPy, FastAPI, Flask
 from .presets.js import React, NextJS, Vanilla
-from .presets.js import React as ReactTS, NextJS as NextTS, Vanilla as VanillaTS
+from .presets.ts import React as ReactTS, NextJS as NextTS, Vanilla as VanillaTS
 from .utils import (
     get_home_dir,
     get_domain,
@@ -339,15 +336,27 @@ def create(name: str, src: bool = False):
             user = questionary.text("Enter Username: ").ask()
         repository = os.path.join(repository, user)
     if prj_type in ["Python", "FastAPI", "Flask"]:
-        env = py_q()
-        if env == "Poetry":
-            poetry(repository, name, src)
-        elif env == "Pip":
-            pip(repository, name)
-        elif env == "Virtual Environment":
-            venv(repository, name)
-        else:
-            console.print("[red]Invalid package manager selected[/]")
+        if prj_type == "Python":
+            preset = VanillaPy(repository, name)
+            pms = {man.name: man for man in preset.package_managers}
+            pm = questionary.select("Package Manager", choices=pms.keys()).ask()
+            if not pm or not repository or not name:
+                return
+            preset.generate(pms.get(pm))
+        elif prj_type == "FastAPI":
+            preset = FastAPI(repository, name)
+            pms = {man.name: man for man in preset.package_managers}
+            pm = questionary.select("Package Manager", choices=pms.keys()).ask()
+            if not pm or not repository or not name:
+                return
+            preset.generate(pms.get(pm))
+        elif prj_type == "Flask":
+            preset = Flask(repository, name)
+            pms = {man.name: man for man in preset.package_managers}
+            pm = questionary.select("Package Manager", choices=pms.keys()).ask()
+            if not pm or not repository or not name:
+                return
+            preset.generate(pms.get(pm))
     elif prj_type in ["NodeJS", "React", "NextJS"]:
         ts = questionary.confirm("Use TypeScript").ask()
         if ts:

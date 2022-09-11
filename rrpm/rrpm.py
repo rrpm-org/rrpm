@@ -285,7 +285,7 @@ def create(name: str, src: bool = False):
                     ),
                     ext,
                 )
-                .Preset()
+                .Preset
                 .name
             )
             exts.append({ext_: load_extension(config.config["root"]["ext_dir"], ext)})
@@ -407,7 +407,12 @@ def create(name: str, src: bool = False):
         for ext in exts:
             if ext.get(prj_type) is not None:
                 try:
-                    ext[prj_type].Preset().on_select(repository, name)
+                    preset = ext[prj_type].Preset(repository, name)
+                    pms = {man.name: man for man in preset.package_managers}
+                    pm = questionary.select("Package Manager", choices=pms.keys()).ask()
+                    if not pm or not repository or not name:
+                        return
+                    preset.generate(pms.get(pm))
                 except Exception:
                     console.print(
                         f"[red]Exception occured in extension: {ext[prj_type].__file__}[/]"

@@ -194,7 +194,7 @@ class NPM(PackageManager):
                     )
                 return
             elif preset == "sveltekit":
-                pass
+                console.log("[red]SvelteKit with TypeScript is not availble![/]")
             elif preset == "vue":
                 pass
         else:
@@ -333,7 +333,25 @@ class NPM(PackageManager):
                     )
                 return
             elif preset == "sveltekit":
-                pass
+                if os.path.exists(os.path.join(home, repo, name)):
+                    console.print("[red]Project already exists![/]")
+                    return
+                os.mkdir(os.path.join(home, repo, name))
+                console.print(
+                    "[green]Creating project with Svelte, JavaScript and NPM[/]"
+                )
+                if config.config["cli"]["display_output"]:
+                    subprocess.run(
+                        ["npm", "create", "svelte@latest", name],
+                        shell=True,
+                    )
+                else:
+                    subprocess.run(
+                        ["npm", "create", "svelte@latest", name],
+                        shell=True,
+                        capture_output=True,
+                    )
+                return
             elif preset == "vue":
                 pass
 
@@ -496,7 +514,7 @@ class Yarn(PackageManager):
                     )
                 return
             elif preset == "sveltekit":
-                pass
+                console.log("[red]SvelteKit with TypeScript is not availble![/]")
             elif preset == "vue":
                 pass
         else:
@@ -619,7 +637,25 @@ class Yarn(PackageManager):
                     )
                 return
             elif preset == "sveltekit":
-                pass
+                if os.path.exists(os.path.join(home, repo, name)):
+                    console.print("[red]Project already exists![/]")
+                    return
+                os.mkdir(os.path.join(home, repo, name))
+                console.print(
+                    "[green]Creating project with Svelte, JavaScript and NPM[/]"
+                )
+                if config.config["cli"]["display_output"]:
+                    subprocess.run(
+                        ["yarn", "create", "svelte", name],
+                        shell=True,
+                    )
+                else:
+                    subprocess.run(
+                        ["yarn", "create", "svelte", name],
+                        shell=True,
+                        capture_output=True,
+                    )
+                return
             elif preset == "vue":
                 pass
 
@@ -788,7 +824,7 @@ class PNPM(PackageManager):
                     )
                 return
             elif preset == "sveltekit":
-                pass
+                console.log("[red]SvelteKit with TypeScript is not availble![/]")
             elif preset == "vue":
                 pass
         else:
@@ -929,7 +965,25 @@ class PNPM(PackageManager):
                     )
                 return
             elif preset == "sveltekit":
-                pass
+                if os.path.exists(os.path.join(home, repo, name)):
+                    console.print("[red]Project already exists![/]")
+                    return
+                os.mkdir(os.path.join(home, repo, name))
+                console.print(
+                    "[green]Creating project with SvelteKit, JavaScript and NPM[/]"
+                )
+                if config.config["cli"]["display_output"]:
+                    subprocess.run(
+                        ["pnpm", "create", "svelte@latest", name],
+                        shell=True,
+                    )
+                else:
+                    subprocess.run(
+                        ["pnpm", "create", "svelte@latest", name],
+                        shell=True,
+                        capture_output=True,
+                    )
+                return
             elif preset == "vue":
                 pass
 

@@ -196,7 +196,25 @@ class NPM(PackageManager):
             elif preset == "sveltekit":
                 console.log("[red]SvelteKit with TypeScript is not availble![/]")
             elif preset == "vue":
-                pass
+                if os.path.exists(os.path.join(home, repo, name)):
+                    console.print("[red]Project already exists![/]")
+                    return
+                os.mkdir(os.path.join(home, repo, name))
+                console.print(
+                    "[green]Creating project with Svelte, JavaScript and NPM[/]"
+                )
+                if config.config["cli"]["display_output"]:
+                    subprocess.run(
+                        ["npm", "create", "vite@latest", name, "--", "--template", "vue-ts"],
+                        shell=True,
+                    )
+                else:
+                    subprocess.run(
+                        ["npm", "create", "vite@latest", name, "--", "--template", "vue-ts"],
+                        shell=True,
+                        capture_output=True,
+                    )
+                return
         else:
             if preset == "react":
                 bundler = questionary.select(
@@ -353,7 +371,25 @@ class NPM(PackageManager):
                     )
                 return
             elif preset == "vue":
-                pass
+                if os.path.exists(os.path.join(home, repo, name)):
+                    console.print("[red]Project already exists![/]")
+                    return
+                os.mkdir(os.path.join(home, repo, name))
+                console.print(
+                    "[green]Creating project with Svelte, JavaScript and NPM[/]"
+                )
+                if config.config["cli"]["display_output"]:
+                    subprocess.run(
+                        ["npm", "create", "vite@latest", name, "--", "--template", "vue"],
+                        shell=True,
+                    )
+                else:
+                    subprocess.run(
+                        ["npm", "create", "vite@latest", name, "--", "--template", "vue"],
+                        shell=True,
+                        capture_output=True,
+                    )
+                return
 
 
 class Yarn(PackageManager):
@@ -516,7 +552,25 @@ class Yarn(PackageManager):
             elif preset == "sveltekit":
                 console.log("[red]SvelteKit with TypeScript is not availble![/]")
             elif preset == "vue":
-                pass
+                if os.path.exists(os.path.join(home, repo, name)):
+                    console.print("[red]Project already exists![/]")
+                    return
+                os.mkdir(os.path.join(home, repo, name))
+                console.print(
+                    "[green]Creating project with Svelte, JavaScript and NPM[/]"
+                )
+                if config.config["cli"]["display_output"]:
+                    subprocess.run(
+                        ["yarn", "create", "vite", name, "--", "--template", "vue-ts"],
+                        shell=True,
+                    )
+                else:
+                    subprocess.run(
+                        ["yarn", "create", "vite", name, "--", "--template", "vue-ts"],
+                        shell=True,
+                        capture_output=True,
+                    )
+                return
         else:
             if preset == "react":
                 bundler = questionary.select(
@@ -657,7 +711,25 @@ class Yarn(PackageManager):
                     )
                 return
             elif preset == "vue":
-                pass
+                if os.path.exists(os.path.join(home, repo, name)):
+                    console.print("[red]Project already exists![/]")
+                    return
+                os.mkdir(os.path.join(home, repo, name))
+                console.print(
+                    "[green]Creating project with Svelte, JavaScript and NPM[/]"
+                )
+                if config.config["cli"]["display_output"]:
+                    subprocess.run(
+                        ["yarn", "create", "vite", name, "--", "--template", "vue"],
+                        shell=True,
+                    )
+                else:
+                    subprocess.run(
+                        ["yarn", "create", "vite", name, "--", "--template", "vue"],
+                        shell=True,
+                        capture_output=True,
+                    )
+                return
 
 
 class PNPM(PackageManager):
@@ -826,7 +898,25 @@ class PNPM(PackageManager):
             elif preset == "sveltekit":
                 console.log("[red]SvelteKit with TypeScript is not availble![/]")
             elif preset == "vue":
-                pass
+                if os.path.exists(os.path.join(home, repo, name)):
+                    console.print("[red]Project already exists![/]")
+                    return
+                os.mkdir(os.path.join(home, repo, name))
+                console.print(
+                    "[green]Creating project with Svelte, JavaScript and NPM[/]"
+                )
+                if config.config["cli"]["display_output"]:
+                    subprocess.run(
+                        ["pnpm", "create", "vite", name, "--", "--template", "vue-ts"],
+                        shell=True,
+                    )
+                else:
+                    subprocess.run(
+                        ["pnpm", "create", "vite", name, "--", "--template", "vue-ts"],
+                        shell=True,
+                        capture_output=True,
+                    )
+                return
         else:
             if preset == "react":
                 bundler = questionary.select(
@@ -985,7 +1075,25 @@ class PNPM(PackageManager):
                     )
                 return
             elif preset == "vue":
-                pass
+                if os.path.exists(os.path.join(home, repo, name)):
+                    console.print("[red]Project already exists![/]")
+                    return
+                os.mkdir(os.path.join(home, repo, name))
+                console.print(
+                    "[green]Creating project with Svelte, JavaScript and NPM[/]"
+                )
+                if config.config["cli"]["display_output"]:
+                    subprocess.run(
+                        ["pnpm", "create", "vite", name, "--", "--template", "vue"],
+                        shell=True,
+                    )
+                else:
+                    subprocess.run(
+                        ["pnpm", "create", "vite", name, "--", "--template", "vue"],
+                        shell=True,
+                        capture_output=True,
+                    )
+                return
 
 
 class Pip(PackageManager):

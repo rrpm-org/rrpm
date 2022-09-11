@@ -355,38 +355,44 @@ def create(name: str, src: bool = False):
                 preset = VanillaTS(repository, name)
                 pms = {man.name: man for man in preset.package_managers}
                 pm = questionary.select("Package Manager", choices=pms.keys()).ask()
-                if not pm or not repository or not name: return
+                if not pm or not repository or not name:
+                    return
                 preset.generate(pms.get(pm))
             elif prj_type == "React":
                 preset = ReactTS(repository, name)
                 pms = {man.name: man for man in preset.package_managers}
                 pm = questionary.select("Package Manager", choices=pms.keys()).ask()
-                if not pm or not repository or not name: return
+                if not pm or not repository or not name:
+                    return
                 preset.generate(pms.get(pm))
             elif prj_type == "NodeJS":
                 preset = NextTS(repository, name)
                 pms = {man.name: man for man in preset.package_managers}
                 pm = questionary.select("Package Manager", choices=pms.keys()).ask()
-                if not pm or not repository or not name: return
+                if not pm or not repository or not name:
+                    return
                 preset.generate(pms.get(pm))
         else:
             if prj_type == "NodeJS":
                 preset = Vanilla(repository, name)
                 pms = {man.name: man for man in preset.package_managers}
                 pm = questionary.select("Package Manager", choices=pms.keys()).ask()
-                if not pm or not repository or not name: return
+                if not pm or not repository or not name:
+                    return
                 preset.generate(pms.get(pm))
             elif prj_type == "React":
                 preset = React(repository, name)
                 pms = {man.name: man for man in preset.package_managers}
                 pm = questionary.select("Package Manager", choices=pms.keys()).ask()
-                if not pm or not repository or not name: return
+                if not pm or not repository or not name:
+                    return
                 preset.generate(pms.get(pm))
             elif prj_type == "NodeJS":
                 preset = NextJS(repository, name)
                 pms = {man.name: man for man in preset.package_managers}
                 pm = questionary.select("Package Manager", choices=pms.keys()).ask()
-                if not pm or not repository or not name: return
+                if not pm or not repository or not name:
+                    return
                 preset.generate(pms.get(pm))
     else:
         for ext in exts:

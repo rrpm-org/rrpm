@@ -17,6 +17,7 @@ console = Console()
 config = Config()
 home = get_home_dir()
 
+
 class NPM(PackageManager):
     name = "NPM"
     cmd = "npm"
@@ -33,21 +34,41 @@ class NPM(PackageManager):
 
         if ts:
             if preset == "react":
-                bundler = questionary.select("Bundler", choices=["Vite", "create-react-app"]).ask()
+                bundler = questionary.select(
+                    "Bundler", choices=["Vite", "create-react-app"]
+                ).ask()
                 if os.path.exists(os.path.join(home, repo, name)):
                     console.print("[red]Project already exists![/]")
                     sys.exit(1)
                 if bundler == "Vite":
                     os.chdir(os.path.join(get_home_dir(), repo))
-                    console.print("[green]Creating project with Vite, TypeScript and NPM[/]")
+                    console.print(
+                        "[green]Creating project with Vite, TypeScript and NPM[/]"
+                    )
                     if config.config["cli"]["display_output"]:
                         subprocess.run(
-                            ["npm", "create", "vite@latest", name, "--", "--template", "react-ts"],
+                            [
+                                "npm",
+                                "create",
+                                "vite@latest",
+                                name,
+                                "--",
+                                "--template",
+                                "react-ts",
+                            ],
                             shell=True,
                         )
                     else:
                         subprocess.run(
-                            ["npm", "create", "vite@latest", name, "--", "--template", "react-ts"],
+                            [
+                                "npm",
+                                "create",
+                                "vite@latest",
+                                name,
+                                "--",
+                                "--template",
+                                "react-ts",
+                            ],
                             shell=True,
                             capture_output=True,
                         )
@@ -58,12 +79,24 @@ class NPM(PackageManager):
                     )
                     if config.config["cli"]["display_output"]:
                         subprocess.run(
-                            ["npx", "create-react-app@latest", name, "--template", "typescript"],
+                            [
+                                "npx",
+                                "create-react-app@latest",
+                                name,
+                                "--template",
+                                "typescript",
+                            ],
                             shell=True,
                         )
                     else:
                         subprocess.run(
-                            ["npx", "create-react-app@latest", name, "--template", "typescript"],
+                            [
+                                "npx",
+                                "create-react-app@latest",
+                                name,
+                                "--template",
+                                "typescript",
+                            ],
                             shell=True,
                             capture_output=True,
                         )
@@ -72,7 +105,9 @@ class NPM(PackageManager):
                     console.print("[red]Project already exists![/]")
                     return
                 os.mkdir(os.path.join(home, repo, name))
-                console.print("[green]Creating project with create-next-app, TypeScript and NPM[/]")
+                console.print(
+                    "[green]Creating project with create-next-app, TypeScript and NPM[/]"
+                )
                 if config.config["cli"]["display_output"]:
                     subprocess.run(
                         ["npx", "create-next-app@latest", name, "--ts"],
@@ -107,11 +142,17 @@ class NPM(PackageManager):
                 ts_node = questionary.confirm("Install ts-node?")
                 if config.config["cli"]["display_output"]:
                     if ts:
-                        subprocess.run(["npm", "install", "--global", "typescript"], shell=True)
+                        subprocess.run(
+                            ["npm", "install", "--global", "typescript"], shell=True
+                        )
                     else:
-                        subprocess.run(["npm", "install", "--save-dev", "typescript"], shell=True)
+                        subprocess.run(
+                            ["npm", "install", "--save-dev", "typescript"], shell=True
+                        )
                     if ts_node:
-                        subprocess.run(["npm", "install", "--global", "ts-node"], shell=True)
+                        subprocess.run(
+                            ["npm", "install", "--global", "ts-node"], shell=True
+                        )
                 else:
                     if ts:
                         subprocess.run(
@@ -126,7 +167,9 @@ class NPM(PackageManager):
                             capture_output=True,
                         )
                     if ts_node:
-                        subprocess.run(["npm", "install", "--global", "ts-node"], shell=True)
+                        subprocess.run(
+                            ["npm", "install", "--global", "ts-node"], shell=True
+                        )
                 return
             elif preset == "astro":
                 pass
@@ -138,21 +181,41 @@ class NPM(PackageManager):
                 pass
         else:
             if preset == "react":
-                bundler = questionary.select("Bundler", choices=["Vite", "create-react-app"]).ask()
+                bundler = questionary.select(
+                    "Bundler", choices=["Vite", "create-react-app"]
+                ).ask()
                 if os.path.exists(os.path.join(home, repo, name)):
                     console.print("[red]Project already exists![/]")
                     sys.exit(1)
                 if bundler == "Vite":
                     os.chdir(os.path.join(get_home_dir(), repo))
-                    console.print("[green]Creating project with Vite, JavaScript and NPM[/]")
+                    console.print(
+                        "[green]Creating project with Vite, JavaScript and NPM[/]"
+                    )
                     if config.config["cli"]["display_output"]:
                         subprocess.run(
-                            ["npm", "create", "vite@latest", name, "--", "--template", "react"],
+                            [
+                                "npm",
+                                "create",
+                                "vite@latest",
+                                name,
+                                "--",
+                                "--template",
+                                "react",
+                            ],
                             shell=True,
                         )
                     else:
                         subprocess.run(
-                            ["npm", "create", "vite@latest", name, "--", "--template", "react"],
+                            [
+                                "npm",
+                                "create",
+                                "vite@latest",
+                                name,
+                                "--",
+                                "--template",
+                                "react",
+                            ],
                             shell=True,
                             capture_output=True,
                         )
@@ -173,11 +236,13 @@ class NPM(PackageManager):
                             capture_output=True,
                         )
             elif preset == "next":
-                if os.path.exists(os.path.join(home, repo   , name)):
+                if os.path.exists(os.path.join(home, repo, name)):
                     console.print("[red]Project already exists![/]")
                     return
                 os.mkdir(os.path.join(home, repo, name))
-                console.print("[green]Creating project with create-next-app, JavaScript and NPM[/]")
+                console.print(
+                    "[green]Creating project with create-next-app, JavaScript and NPM[/]"
+                )
                 if config.config["cli"]["display_output"]:
                     subprocess.run(
                         ["npx", "create-next-app@latest", name],
@@ -235,16 +300,21 @@ class Yarn(PackageManager):
 
         if ts:
             if preset == "react":
-                bundler = questionary.select("Bundler", choices=["Vite", "create-react-app"]).ask()
+                bundler = questionary.select(
+                    "Bundler", choices=["Vite", "create-react-app"]
+                ).ask()
                 if os.path.exists(os.path.join(home, repo, name)):
                     console.print("[red]Project already exists![/]")
                     sys.exit(1)
                 if bundler == "Vite":
                     os.chdir(os.path.join(home, repo))
-                    console.print("[green]Creating project with Vite, TypeScript and Yarn[/]")
+                    console.print(
+                        "[green]Creating project with Vite, TypeScript and Yarn[/]"
+                    )
                     if config.config["cli"]["display_output"]:
                         subprocess.run(
-                            ["yarn", "create", "vite", name, "--template", "react-ts"], shell=True
+                            ["yarn", "create", "vite", name, "--template", "react-ts"],
+                            shell=True,
                         )
                     else:
                         subprocess.run(
@@ -259,12 +329,26 @@ class Yarn(PackageManager):
                     )
                     if config.config["cli"]["display_output"]:
                         subprocess.run(
-                            ["yarn", "create", "react-app", name, "--template", "typescript"],
+                            [
+                                "yarn",
+                                "create",
+                                "react-app",
+                                name,
+                                "--template",
+                                "typescript",
+                            ],
                             shell=True,
                         )
                     else:
                         subprocess.run(
-                            ["yarn", "create", "react-app", name, "--template", "typescript"],
+                            [
+                                "yarn",
+                                "create",
+                                "react-app",
+                                name,
+                                "--template",
+                                "typescript",
+                            ],
                             shell=True,
                             capture_output=True,
                         )
@@ -310,19 +394,27 @@ class Yarn(PackageManager):
                 ts_node = questionary.confirm("Install ts-node?")
                 if config.config["cli"]["display_output"]:
                     if ts:
-                        subprocess.run(["yarn", "global", "add", "typescript"], shell=True)
+                        subprocess.run(
+                            ["yarn", "global", "add", "typescript"], shell=True
+                        )
                     else:
-                        subprocess.run(["yarn", "add", "--dev", "typescript"], shell=True)
+                        subprocess.run(
+                            ["yarn", "add", "--dev", "typescript"], shell=True
+                        )
                     if ts_node:
                         subprocess.run(["yarn", "global", "add", "ts-node"], shell=True)
                 else:
                     if ts:
                         subprocess.run(
-                            ["yarn", "global", "add", "typescript"], shell=True, capture_output=True
+                            ["yarn", "global", "add", "typescript"],
+                            shell=True,
+                            capture_output=True,
                         )
                     else:
                         subprocess.run(
-                            ["yarn", "add", "--dev", "typescript"], shell=True, capture_output=True
+                            ["yarn", "add", "--dev", "typescript"],
+                            shell=True,
+                            capture_output=True,
                         )
                     if ts_node:
                         subprocess.run(["yarn", "global", "add", "ts-node"], shell=True)
@@ -337,16 +429,21 @@ class Yarn(PackageManager):
                 pass
         else:
             if preset == "react":
-                bundler = questionary.select("Bundler", choices=["Vite", "create-react-app"]).ask()
+                bundler = questionary.select(
+                    "Bundler", choices=["Vite", "create-react-app"]
+                ).ask()
                 if os.path.exists(os.path.join(home, repo, name)):
                     console.print("[red]Project already exists![/]")
                     sys.exit(1)
                 if bundler == "Vite":
                     os.chdir(os.path.join(home, repo))
-                    console.print("[green]Creating project with Vite, JavaScript and Yarn[/]")
+                    console.print(
+                        "[green]Creating project with Vite, JavaScript and Yarn[/]"
+                    )
                     if config.config["cli"]["display_output"]:
                         subprocess.run(
-                            ["yarn", "create", "vite", name, "--template", "react"], shell=True
+                            ["yarn", "create", "vite", name, "--template", "react"],
+                            shell=True,
                         )
                     else:
                         subprocess.run(
@@ -441,15 +538,33 @@ class PNPM(PackageManager):
                     sys.exit(1)
                 if bundler == "Vite":
                     os.chdir(os.path.join(home, repo))
-                    console.print("[green]Creating project with Vite, TypeScript and Pnpm[/]")
+                    console.print(
+                        "[green]Creating project with Vite, TypeScript and Pnpm[/]"
+                    )
                     if config.config["cli"]["display_output"]:
                         subprocess.run(
-                            ["pnpm", "create", "vite", name, "--", "--template", "react-ts"],
+                            [
+                                "pnpm",
+                                "create",
+                                "vite",
+                                name,
+                                "--",
+                                "--template",
+                                "react-ts",
+                            ],
                             shell=True,
                         )
                     else:
                         subprocess.run(
-                            ["pnpm", "create", "vite", name, "--", "--template", "react-ts"],
+                            [
+                                "pnpm",
+                                "create",
+                                "vite",
+                                name,
+                                "--",
+                                "--template",
+                                "react-ts",
+                            ],
                             shell=True,
                             capture_output=True,
                         )
@@ -513,11 +628,17 @@ class PNPM(PackageManager):
                 ts_node = questionary.confirm("Install ts-node?")
                 if config.config["cli"]["display_output"]:
                     if ts:
-                        subprocess.run(["pnpm", "add", "--global", "typescript"], shell=True)
+                        subprocess.run(
+                            ["pnpm", "add", "--global", "typescript"], shell=True
+                        )
                     else:
-                        subprocess.run(["pnpm", "add", "--save-dev", "typescript"], shell=True)
+                        subprocess.run(
+                            ["pnpm", "add", "--save-dev", "typescript"], shell=True
+                        )
                     if ts_node:
-                        subprocess.run(["pnpm", "add", "--global", "ts-node"], shell=True)
+                        subprocess.run(
+                            ["pnpm", "add", "--global", "ts-node"], shell=True
+                        )
                 else:
                     if ts:
                         subprocess.run(
@@ -532,7 +653,9 @@ class PNPM(PackageManager):
                             capture_output=True,
                         )
                     if ts_node:
-                        subprocess.run(["pnpm", "add", "--global", "ts-node"], shell=True)
+                        subprocess.run(
+                            ["pnpm", "add", "--global", "ts-node"], shell=True
+                        )
                 return
             elif preset == "astro":
                 pass
@@ -544,21 +667,41 @@ class PNPM(PackageManager):
                 pass
         else:
             if preset == "react":
-                bundler = questionary.select("Bundler", choices=["Vite", "create-react-app"]).ask()
+                bundler = questionary.select(
+                    "Bundler", choices=["Vite", "create-react-app"]
+                ).ask()
                 if os.path.exists(os.path.join(home, repo, name)):
                     console.print("[red]Project already exists![/]")
                     sys.exit(1)
                 if bundler == "Vite":
                     os.chdir(os.path.join(home, repo))
-                    console.print("[green]Creating project with Vite, JavaScript and Pnpm[/]")
+                    console.print(
+                        "[green]Creating project with Vite, JavaScript and Pnpm[/]"
+                    )
                     if config.config["cli"]["display_output"]:
                         subprocess.run(
-                            ["pnpm", "create", "vite", name, "--", "--template", "react"],
+                            [
+                                "pnpm",
+                                "create",
+                                "vite",
+                                name,
+                                "--",
+                                "--template",
+                                "react",
+                            ],
                             shell=True,
                         )
                     else:
                         subprocess.run(
-                            ["pnpm", "create", "vite", name, "--", "--template", "react"],
+                            [
+                                "pnpm",
+                                "create",
+                                "vite",
+                                name,
+                                "--",
+                                "--template",
+                                "react",
+                            ],
                             shell=True,
                             capture_output=True,
                         )
@@ -722,7 +865,9 @@ class Pip(PackageManager):
             for dep in deps:
                 out = subprocess.run(["pip", "install", dep], capture_output=True)
                 if out.returncode != 0:
-                    progress.console.print(f"[red]Failed to install dependency: {dep}[/]")
+                    progress.console.print(
+                        f"[red]Failed to install dependency: {dep}[/]"
+                    )
                 else:
                     progress.console.print(
                         f"[green]Dependency: {dep.lstrip().rstrip()} installed successfully![/]"
@@ -960,7 +1105,9 @@ class Venv(PackageManager):
             for dep in deps:
                 out = subprocess.run(["pip", "install", dep], capture_output=True)
                 if out.returncode != 0:
-                    progress.console.print(f"[red]Failed to install dependency: {dep}[/]")
+                    progress.console.print(
+                        f"[red]Failed to install dependency: {dep}[/]"
+                    )
                 else:
                     progress.console.print(
                         f"[green]Dependency: {dep.lstrip().rstrip()} installed successfully![/]"

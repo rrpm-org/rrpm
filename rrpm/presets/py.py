@@ -9,6 +9,7 @@ console = Console()
 config = Config()
 home = get_home_dir()
 
+
 class Vanilla(Preset):
     package_managers = [Pip, Poetry, Venv]
 

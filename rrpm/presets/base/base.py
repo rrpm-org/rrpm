@@ -1,6 +1,7 @@
 import shutil
 from rich.console import Console
 
+
 class PackageManager:
     def __init__(self):
         pass
@@ -14,6 +15,7 @@ class PackageManager:
     @classmethod
     def generate(cls):
         pass
+
 
 class Preset:
     package_managers = []

@@ -5,8 +5,8 @@ import sys
 import questionary
 from .base import PackageManager
 from rich.console import Console
-from .. import Config
-from .. import get_home_dir
+from rrpm.config import Config
+from rrpm.utils import get_home_dir
 
 presets = ["react", "next", "vanilla", "astro", "svelte", "sveltekit", "vue"]
 console = Console()

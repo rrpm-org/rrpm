@@ -2,8 +2,8 @@ from rich.console import Console
 
 from .base.managers import NPM, PNPM, Yarn
 from .base.base import Preset, PackageManager
-from .. import get_home_dir
-from .. import Config
+from rrpm.utils import get_home_dir
+from rrpm.config import Config
 
 console = Console()
 config = Config()

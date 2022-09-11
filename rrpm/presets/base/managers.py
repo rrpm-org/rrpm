@@ -19,6 +19,7 @@ home = get_home_dir()
 
 class NPM(PackageManager):
     name = "NPM"
+    cmd = "npm"
 
     @classmethod
     def generate(cls, repo: str, name: str, preset: str, ts: bool):
@@ -220,6 +221,7 @@ class NPM(PackageManager):
 
 class Yarn(PackageManager):
     name = "Yarn"
+    cmd = "yarn"
 
     @classmethod
     def generate(cls, repo: str, name: str, preset: str, ts: bool):
@@ -419,6 +421,7 @@ class Yarn(PackageManager):
 
 class PNPM(PackageManager):
     name = "PNPM"
+    cmd = "pnpm"
 
     @classmethod
     def generate(cls, repo: str, name: str, preset: str, ts: bool):
@@ -628,6 +631,7 @@ class PNPM(PackageManager):
 
 class Pip(PackageManager):
     name = "Pip"
+    cmd = "pip"
 
     @classmethod
     def generate(cls, repo: str, name: str, preset: str):
@@ -805,6 +809,7 @@ classifiers=[]
 
 class Poetry(PackageManager):
     name = "Poetry"
+    cmd = "poetry"
 
     @classmethod
     def generate(cls, repo: str, name: str, preset: str):
@@ -850,7 +855,8 @@ class Poetry(PackageManager):
 
 
 class Venv(PackageManager):
-    name = "Virtualenv"
+    name = "Virtual Environment"
+    cmd = "virtualenv"
 
     @classmethod
     def generate(cls, repo: str, name: str, preset: str):

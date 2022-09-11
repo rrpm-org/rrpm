@@ -7,7 +7,7 @@ class PackageManager:
 
     @classmethod
     def check(cls):
-        if not shutil.which(cls.name):
+        if not shutil.which(cls.cmd or cls.name):
             return False
         return True
 

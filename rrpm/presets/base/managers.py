@@ -18,6 +18,10 @@ class NPM(PackageManager):
 
     @classmethod
     def generate(cls, repo: str, name: str, preset: str, ts: bool):
+        if not cls.check():
+            console.print("[red]npm is not installed![/]")
+            return
+
         if preset not in presets:
             console.print(f"[red]Unknown preset: '{preset}'[/]")
             return
@@ -215,6 +219,10 @@ class Yarn(PackageManager):
 
     @classmethod
     def generate(cls, repo: str, name: str, preset: str, ts: bool):
+        if not cls.check():
+            console.print("[red]yarn is not installed![/]")
+            return
+
         if preset not in presets:
             console.print(f"[red]Unknown preset: '{preset}'[/]")
             return
@@ -410,6 +418,10 @@ class PNPM(PackageManager):
 
     @classmethod
     def generate(cls, repo: str, name: str, preset: str, ts: bool):
+        if not cls.check():
+            console.print("[red]pnpm is not installed![/]")
+            return
+
         if preset not in presets:
             console.print(f"[red]Unknown preset: '{preset}'[/]")
             return

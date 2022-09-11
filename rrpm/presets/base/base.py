@@ -1,8 +1,15 @@
+import shutil
 from rich.console import Console
 
 class PackageManager:
     def __init__(self):
         pass
+
+    @classmethod
+    def check(cls):
+        if not shutil.which(cls.name):
+            return False
+        return True
 
     @classmethod
     def generate(cls):

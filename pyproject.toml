@@ -1,11 +1,11 @@
 [tool.poetry]
 name = "rrpm"
-version = "1.4.0"
+version = "2.0.0"
 description = "A tool to manage all your projects easily!"
 readme = "README.md"
-homepage = "https://pybash.gitbook.io/rrpm"
-documentation = "https://pybash.gitbook.io/rrpm"
-repository = "https://github.com/pybash1/rrpm"
+homepage = "https://rrpm.vercel.app"
+documentation = "https://rrpm.vercel.app"
+repository = "https://github.com/rrpm-org/rrpm"
 keywords = ["repository", "git", "javascript", "projects"]
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -20,7 +20,7 @@ classifiers = [
     "Topic :: Software Development :: Version Control :: Git",
     "Topic :: Terminals"
 ]
-authors = ["pybash1 <example@example.com>"]
+authors = ["pybash1 <pybash@authdeck.xyz>"]
 license = "MIT"
 
 [tool.poetry.urls]

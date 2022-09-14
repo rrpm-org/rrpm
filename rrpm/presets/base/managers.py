@@ -1323,8 +1323,8 @@ classifiers=[]
             with open(os.path.join(home, repo, name, "pyproject.toml"), "w") as f:
                 f.write(
                     "[build-system]\n"
-                    f"requires = ['setuptools>=42']\n"
-                    f"build-backend = 'setuptools.build_meta'\n"
+                    "requires = ['setuptools>=42']\n"
+                    "build-backend = 'setuptools.build_meta'\n"
                 )
             progress.update(write_task, advance=5)
             time.sleep(1)
@@ -1563,8 +1563,8 @@ classifiers=[]
             with open(os.path.join(home, repo, name, "pyproject.toml"), "w") as f:
                 f.write(
                     "[build-system]\n"
-                    f"requires = ['setuptools>=42']\n"
-                    f"build-backend = 'setuptools.build_meta'\n"
+                    "requires = ['setuptools>=42']\n"
+                    "build-backend = 'setuptools.build_meta'\n"
                 )
             progress.update(write_task, advance=5)
             time.sleep(1)

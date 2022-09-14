@@ -27,5 +27,6 @@ class Preset:
     def generate(self, pkg: PackageManager):
         pass
 
-    def exception_handler(self, e: Exception):
+    @staticmethod
+    def exception_handler():
         Console().print_exception()

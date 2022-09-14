@@ -39,9 +39,8 @@ def get(url: str):
         console.print("[red]Invalid domain or shorthand![/]")
         return
 
-    if is_domain(url):
-        if not url.startswith("http://") and not url.startswith("https://"):
-            url = "https://" + url
+    if is_domain(url) and not url.startswith("http://") and not url.startswith("https://"):
+        url = "https://" + url
 
     home_dir = get_home_dir()
     try:
@@ -236,9 +235,9 @@ def migrate(path: Path):
     dirs = get_all_dirs(path)
     repos_filtered = []
     remotes = []
-    for dir in dirs:
-        if ".git" in str(dir).split("\\"):
-            repo_list = str(dir).split("\\")
+    for dir_ in dirs:
+        if ".git" in str(dir_).split("\\"):
+            repo_list = str(dir_).split("\\")
             repo_name = "\\".join(repo_list[: repo_list.index(".git")])
             if repo_name not in repos_filtered:
                 repos_filtered.append(repo_name)
@@ -272,7 +271,7 @@ def migrate(path: Path):
 
 
 @cli.command(help="Generate a project from any of the presets and/or its variations")
-def create(name: str, src: bool = False):
+def create(name: str):
     home = get_home_dir()
     exts = []
     base_choices = ["Python", "FastAPI", "Flask", "NodeJS", "React", "NextJS"]

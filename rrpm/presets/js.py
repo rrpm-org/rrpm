@@ -36,3 +36,24 @@ class Astro(Preset):
 
     def generate(self, pkg: PackageManager):
         pkg.generate(self.repo, self.name, "astro", False)
+
+
+class Svelte(Preset):
+    package_managers = [NPM, Yarn, PNPM]
+
+    def generate(self, pkg: PackageManager):
+        pkg.generate(self.repo, self.name, "svelte", False)
+
+        
+class SvelteKit(Preset):
+    package_managers = [NPM, Yarn, PNPM]
+
+    def generate(self, pkg: PackageManager):
+        pkg.generate(self.repo, self.name, "sveltekit", False)
+
+
+class Vue(Preset):
+    package_managers = [NPM, Yarn, PNPM]
+
+    def generate(self, pkg: PackageManager):
+        pkg.generate(self.repo, self.name, "vue", False)

@@ -13,8 +13,8 @@ from rich.markdown import Markdown
 from rich.table import Table
 
 from .presets.py import Vanilla as VanillaPy, FastAPI, Flask
-from .presets.js import React, NextJS, Vanilla
-from .presets.ts import React as ReactTS, NextJS as NextTS, Vanilla as VanillaTS
+from .presets.js import React, NextJS, Vanilla, Astro, Svelte, SvelteKit, Vue
+from .presets.ts import React as ReactTS, NextJS as NextTS, Vanilla as VanillaTS, Astro as AstroTS, Svelte as SvelteTS, SvelteKit as SvelteKitTS, Vue as VueTS
 from .utils import (
     get_home_dir,
     get_domain,
@@ -274,7 +274,7 @@ def migrate(path: Path):
 def create(name: str):
     home = get_home_dir()
     exts = []
-    base_choices = ["Python", "FastAPI", "Flask", "NodeJS", "React", "NextJS"]
+    base_choices = ["Python", "FastAPI", "Flask", "NodeJS", "React", "NextJS", "Astro", "Svelte", "SvelteKit", "Vue"]
     for ext in config.config["extensions"]["presets"]:
         try:
             ext_ = load_extension(
@@ -352,7 +352,7 @@ def create(name: str):
             if not pm or not repository or not name:
                 return
             preset.generate(pms.get(pm))
-    elif prj_type in ["NodeJS", "React", "NextJS"]:
+    elif prj_type in ["NodeJS", "React", "NextJS", "Astro", "Svelte", "SvelteKit", "Vue"]:
         ts = questionary.confirm("Use TypeScript").ask()
         if ts:
             if prj_type == "NodeJS":
@@ -369,13 +369,42 @@ def create(name: str):
                 if not pm or not repository or not name:
                     return
                 preset.generate(pms.get(pm))
-            elif prj_type == "NodeJS":
+            elif prj_type == "NextJS":
                 preset = NextTS(repository, name)
                 pms = {man.name: man for man in preset.package_managers}
                 pm = questionary.select("Package Manager", choices=pms.keys()).ask()
                 if not pm or not repository or not name:
                     return
                 preset.generate(pms.get(pm))
+            elif prj_type == "Astro":
+                preset = AstroTS(repository, name)
+                pms = {man.name: man for man in preset.package_managers}
+                pm = questionary.select("Package Manager", choices=pms.keys()).ask()
+                if not pm or not repository or not name:
+                    return
+                preset.generate(pms.get(pm))
+            elif prj_type == "Svelte":
+                preset = SvelteTS(repository, name)
+                pms = {man.name: man for man in preset.package_managers}
+                pm = questionary.select("Package Manager", choices=pms.keys()).ask()
+                if not pm or not repository or not name:
+                    return
+                preset.generate(pms.get(pm))
+            elif prj_type == "SvelteKit":
+                preset = SvelteKitTS(repository, name)
+                pms = {man.name: man for man in preset.package_managers}
+                pm = questionary.select("Package Manager", choices=pms.keys()).ask()
+                if not pm or not repository or not name:
+                    return
+                preset.generate(pms.get(pm))
+            elif prj_type == "Vue":
+                preset = VueTS(repository, name)
+                pms = {man.name: man for man in preset.package_managers}
+                pm = questionary.select("Package Manager", choices=pms.keys()).ask()
+                if not pm or not repository or not name:
+                    return
+                preset.generate(pms.get(pm))
+
         else:
             if prj_type == "NodeJS":
                 preset = Vanilla(repository, name)
@@ -393,6 +422,34 @@ def create(name: str):
                 preset.generate(pms.get(pm))
             elif prj_type == "NodeJS":
                 preset = NextJS(repository, name)
+                pms = {man.name: man for man in preset.package_managers}
+                pm = questionary.select("Package Manager", choices=pms.keys()).ask()
+                if not pm or not repository or not name:
+                    return
+                preset.generate(pms.get(pm))
+            elif prj_type == "Astro":
+                preset = Astro(repository, name)
+                pms = {man.name: man for man in preset.package_managers}
+                pm = questionary.select("Package Manager", choices=pms.keys()).ask()
+                if not pm or not repository or not name:
+                    return
+                preset.generate(pms.get(pm))
+            elif prj_type == "Svelte":
+                preset = Svelte(repository, name)
+                pms = {man.name: man for man in preset.package_managers}
+                pm = questionary.select("Package Manager", choices=pms.keys()).ask()
+                if not pm or not repository or not name:
+                    return
+                preset.generate(pms.get(pm))
+            elif prj_type == "SvelteKit":
+                preset = SvelteKit(repository, name)
+                pms = {man.name: man for man in preset.package_managers}
+                pm = questionary.select("Package Manager", choices=pms.keys()).ask()
+                if not pm or not repository or not name:
+                    return
+                preset.generate(pms.get(pm))
+            elif prj_type == "Vue":
+                preset = Vue(repository, name)
                 pms = {man.name: man for man in preset.package_managers}
                 pm = questionary.select("Package Manager", choices=pms.keys()).ask()
                 if not pm or not repository or not name:

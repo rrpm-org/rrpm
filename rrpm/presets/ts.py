@@ -29,3 +29,30 @@ class NextJS(Preset):
 
     def generate(self, pkg: PackageManager):
         pkg.generate(self.repo, self.name, "next", True)
+
+class Astro(Preset):
+    package_managers = [NPM, Yarn, PNPM]
+
+    def generate(self, pkg: PackageManager):
+        pkg.generate(self.repo, self.name, "astro", True)
+
+
+class Svelte(Preset):
+    package_managers = [NPM, Yarn, PNPM]
+
+    def generate(self, pkg: PackageManager):
+        pkg.generate(self.repo, self.name, "svelte", True)
+
+        
+class SvelteKit(Preset):
+    package_managers = [NPM, Yarn, PNPM]
+
+    def generate(self, pkg: PackageManager):
+        pkg.generate(self.repo, self.name, "sveltekit", True)
+
+
+class Vue(Preset):
+    package_managers = [NPM, Yarn, PNPM]
+
+    def generate(self, pkg: PackageManager):
+        pkg.generate(self.repo, self.name, "vue", True)
